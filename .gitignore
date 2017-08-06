@@ -1,6 +1,10 @@
 # Maven target dir
 target
 
+# Idea
+.idea
+*.iml
+
 # Compiled class file
 *.class
 
