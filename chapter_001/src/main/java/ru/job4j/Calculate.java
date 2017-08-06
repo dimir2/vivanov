@@ -22,6 +22,6 @@ public class Calculate {
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
 		Calculate calc = new Calculate();
-		System.out.println(calc.echo("ahh"));
+		String echo = calc.echo("ahh");
 	}
 }
