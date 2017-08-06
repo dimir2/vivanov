@@ -1,14 +1,14 @@
 package ru.job4j;
 
-/** 
- * Class Calculate 
+/**
+ * Class Calculate.
  * @author Vladimir Ivanov
  * @version 0.1
  * @since 05.08.2017
 */
 public class Calculate {
 	/**
-	 * Echos given values tree times 
+	 * Echos given values tree times.
 	 * @param value Value to be echoed
 	 * @return Echo string
 	*/
@@ -17,7 +17,9 @@ public class Calculate {
 	}
 
 	/**
-	 * Entry point of the Calculate class
+	 * Entry point of the Calculate class.
+	 *
+	 * @param args Command line parameters
 	*/
 	public static void main(String[] args) {
 		System.out.println("Hello World!");

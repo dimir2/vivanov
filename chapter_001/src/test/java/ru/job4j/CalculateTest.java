@@ -6,8 +6,8 @@ import java.io.PrintStream;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-/** 
- * Class CalculateTest
+/**
+ * Class CalculateTest.
  *
  * @author Vladimir Ivanov
  * @version 0.1
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertThat;
 */
 public class CalculateTest {
 	/**
-	 * Echo test
+	 * Echo test.
 	*/
 	@Test public void whenEchoOneStringThenGotThree() {
 		Calculate calc = new Calculate();
@@ -23,14 +23,14 @@ public class CalculateTest {
 	}
 
 	/**
-	 * Test main entry point
+	 * Test main entry point.
 	*/
 	@Test public void whenMainThenHellowWorldOnly() {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(out));
 		Calculate.main(null);
-		assertThat(out.toString(), 
-			is(String.format("Hello World!%s", 
+		assertThat(out.toString(),
+			is(String.format("Hello World!%s",
 				System.getProperty("line.separator"))));
 	}
 }
