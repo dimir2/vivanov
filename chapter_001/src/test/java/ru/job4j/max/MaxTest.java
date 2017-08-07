@@ -25,4 +25,17 @@ public class MaxTest {
         int result = maxim.max(1, 2);
         assertThat(result, is(2));
     }
+
+    /**
+     * Test max method with three parameters.
+     *
+     * @author Vladimir Ivanov
+     * @since 07.08.2017
+     */
+    @Test
+    public void whenChooseMaxBetweenOneTwoAndSevenThenGotSvevenAsMax() {
+        Max maxim = new Max();
+        int result = maxim.max(1, 2, 7);
+        assertThat(result, is(7));
+    }
 }
