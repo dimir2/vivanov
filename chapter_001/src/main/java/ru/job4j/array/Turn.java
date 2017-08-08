@@ -1,7 +1,7 @@
 package ru.job4j.array;
 
 /**
- * Class Turn..
+ * Class Turn.
  *
  * @author Vladimir Ivanov
  * @version 0.1
@@ -9,6 +9,11 @@ package ru.job4j.array;
  */
 public class Turn {
 
+    /**
+     * Turn back Array.
+     * @param array initial array
+     * @return reversed array
+     */
     public int[] back(int[] array) {
         int middle = (int) array.length / 2;
         int last = array.length - 1;
