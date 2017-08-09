@@ -1,2 +1,20 @@
+### git
+# to combine commits 
+git log -10
+git rebase -i HEAD~2
+  - squash unnecessary commits
+  - change the commit message
+git push -f
+
+# to reset local to remote 
+git fetch origin
+git reset --hard origin/master
+
+### maven 
+mvn validate
+mvn clean test
 mvn clean install
+
+### java 
 java -cp chapter_001/target/chapter_001-2.0.jar ru.job4j.Calculate
+
