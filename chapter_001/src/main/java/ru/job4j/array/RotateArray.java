@@ -39,4 +39,44 @@ public class RotateArray {
         }
         return array;
     }
+
+    /**
+     * Rotate 2 dim array clockwise simplified.
+     *
+     * @param array Initial array
+     * @return Rotated array
+     */
+    public int[][] rotateSimple(int[][] array) {
+
+        int len = array.length;
+        for (int i = 0; i < len / 2; i++) {
+            for (int j = i; j < len - i - 1; j++) {
+                int temp = array[i][j];
+                array[i][j] = array[len - j - 1][i];
+                array[len - j - 1][i] = array[len - i - 1][len - j - 1];
+                array[len - i - 1][len - j - 1] = array[j][len - i - 1];
+                array[j][len - i - 1] = temp;
+            }
+        }
+        return array;
+    }
+
+    /**
+     * Rotate 2 dim array clockwise using copy array.
+     *
+     * @param array Initial array
+     * @return Rotated array
+     */
+    public int[][] rotateCopy(int[][] array) {
+        int len = array.length;
+        int[][] result = new int[len][len];
+
+        for (int i = 0; i < len; i++) {
+            for (int j = 0; j < len; j++) {
+                result[j][len - i - 1] = array[i][j];
+            }
+        }
+        return result;
+    }
+
 }
