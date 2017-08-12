@@ -16,6 +16,12 @@ import static org.junit.Assert.assertThat;
  */
 public class RotateArrayTest {
 
+    /**
+     * Utility method for two dimensional array of ints copy.
+     *
+     * @param array Original array
+     * @return Array copy
+     */
     private static int[][] copy(int[][] array) {
         return Arrays.stream(array).map(el -> el.clone()).toArray(int[][]::new);
     }
