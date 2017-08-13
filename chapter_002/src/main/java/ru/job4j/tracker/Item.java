@@ -54,7 +54,7 @@ public class Item {
      * @param desc     Detailed description
      */
     public Item(String name, String desc) {
-        this(name, desc, null);
+        this(name, desc, null); // TODO Get rid of null here, replace by empty array
     }
 
     /**
@@ -130,4 +130,22 @@ public class Item {
         this.comments = comments;
     }
 
+    /**
+     * Item pretty print.
+     *
+     * @return String representation of item
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID: ").append(this.id).append(System.lineSeparator());
+        sb.append("Name: ").append(this.name).append(System.lineSeparator());
+        sb.append("Desc: ").append(this.desc).append(System.lineSeparator());
+        sb.append("Comments: ");
+        for (String comment: this.comments) {
+            sb.append(comment).append(System.lineSeparator());
+        }
+        sb.append(System.lineSeparator());
+        return sb.toString();
+    }
 }
