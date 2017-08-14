@@ -27,4 +27,29 @@ public class MergeArraysTest {
         assertThat(result, is(expected));
     }
 
+    /**
+     * Merge two arrays with one value test.
+     */
+    @Test
+    public void whenMergeArraysWithOneValueThenGotOneSortedArray() {
+        int[] left = new int[]{9};
+        int[] right = new int[]{0};
+        int[] expected = new int[]{0, 9};
+        MergeArrays ma = new MergeArrays();
+        int[] result = ma.merge(left, right);
+        assertThat(result, is(expected));
+    }
+
+    /**
+     * Merge two arrays with ones test.
+     */
+    @Test
+    public void whenMergeTwoArraysWithOnesThenGotOneArrayWithOnes() {
+        int[] left = new int[]{1, 1, 1, 1, 1, 1, 1};
+        int[] right = new int[]{1, 1, 1, 1, 1, 1, 1};
+        int[] expected = new int[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+        MergeArrays ma = new MergeArrays();
+        int[] result = ma.merge(left, right);
+        assertThat(result, is(expected));
+    }
 }

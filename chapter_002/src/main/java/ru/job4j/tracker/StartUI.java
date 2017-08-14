@@ -52,7 +52,7 @@ public class StartUI {
     /**
      * Input interface console implementation.
      */
-    private Input input = new ConsoleInput();
+    private final Input input;
     /**
      * User menu holder.
      */
@@ -62,9 +62,11 @@ public class StartUI {
      * StartUI constructor.
      *
      * @param tracker Tracker to use
+     * @param input   User input
      */
-    public StartUI(Tracker tracker) {
+    public StartUI(Tracker tracker, Input input) {
         this.tracker = tracker;
+        this.input = input;
     }
 
     /**
@@ -73,7 +75,9 @@ public class StartUI {
      * @param args Command line arguments
      */
     public static void main(String[] args) {
-        new StartUI(new Tracker()).init();
+        Tracker tracker = new Tracker();
+        Input input = new ConsoleInput();
+        new StartUI(tracker, input).init();
     }
 
     /**
@@ -84,16 +88,15 @@ public class StartUI {
     private String createMenu() {
         StringBuilder sb = new StringBuilder();
         String lineSep = System.lineSeparator();
-        String dotSep = ". ";
-        sb.append("Tracker main menu").append(lineSep);
-        sb.append(ADD).append(dotSep).append("Add new item").append(lineSep);
-        sb.append(SHOW_ALL).append(dotSep).append("Show all items").append(lineSep);
-        sb.append(EDIT).append(dotSep).append("Edit item").append(lineSep);
-        sb.append(DELETE).append(dotSep).append("Delete item").append(lineSep);
-        sb.append(FIND_BY_ID).append(dotSep).append("Find item by ID").append(lineSep);
-        sb.append(FIND_BY_NAME).append(dotSep).append("Find item by name").append(lineSep);
-        sb.append(EXIT).append(dotSep).append("Exit programm").append(lineSep);
-
+        sb.append(lineSep).append("Tracker main menu").append(lineSep).append("===").append(lineSep);
+        sb.append(ADD).append(". Add new item").append(lineSep);
+        sb.append(SHOW_ALL).append(". Show all items").append(lineSep);
+        sb.append(EDIT).append(". Edit item").append(lineSep);
+        sb.append(DELETE).append(". Delete item").append(lineSep);
+        sb.append(FIND_BY_ID).append(". Find item by ID").append(lineSep);
+        sb.append(FIND_BY_NAME).append(". Find item by name").append(lineSep);
+        sb.append(EXIT).append(". Exit programm").append(lineSep);
+        sb.append("---").append(lineSep);
         return sb.toString();
     }
 
@@ -139,7 +142,7 @@ public class StartUI {
      */
     private void addNewItem() {
 
-        System.out.println("Add new item dialog");
+        this.printDialogTitle("Add item dialog");
 
         String name = "";
         while (name.isEmpty()) {
@@ -164,13 +167,13 @@ public class StartUI {
      */
     private void showAllItems() {
 
-        System.out.println("All items list");
-        System.out.println("===");
+        this.printDialogTitle("All items list");
 
         Item[] items = this.tracker.findAll();
+        System.out.println("total count - " + items.length);
         for (int i = 0; i < items.length; i++) {
             System.out.print(i + ") ");
-            System.out.println(items[i].toString());
+            System.out.print(items[i].toString());
         }
     }
 
@@ -179,8 +182,7 @@ public class StartUI {
      */
     private void editItem() {
 
-        System.out.println("Edit item dialog");
-        System.out.println("===");
+        this.printDialogTitle("Edit item dialog");
 
         String id = input.ask("Enter item id to edit: ");
         Item item = tracker.findById(id);
@@ -217,8 +219,7 @@ public class StartUI {
      */
     private void deleteItem() {
 
-        System.out.println("Delete item dialog");
-        System.out.println("===");
+        this.printDialogTitle("Delete item dialog");
 
         String id = input.ask("Enter item id to delete: ");
         Item item = tracker.findById(id);
@@ -234,8 +235,7 @@ public class StartUI {
      */
     private void findItemById() {
 
-        System.out.println("Find item by ID dialog");
-        System.out.println("===");
+        this.printDialogTitle("Find item by ID dialog");
 
         String id = input.ask("Enter item id to find: ");
         Item item = tracker.findById(id);
@@ -251,8 +251,7 @@ public class StartUI {
      */
     private void findItemByName() {
 
-        System.out.println("Find item by name dialog");
-        System.out.println("===");
+        this.printDialogTitle("Find item by name dialog");
 
         String id = input.ask("Enter item name to find: ");
         Item[] items = tracker.findByName(id);
@@ -262,4 +261,14 @@ public class StartUI {
         }
     }
 
+    /**
+     * Print dialog title.
+     *
+     * @param title Dialog title
+     */
+    private void printDialogTitle(String title) {
+        System.out.println();
+        System.out.println(title);
+        System.out.println("---");
+    }
 }

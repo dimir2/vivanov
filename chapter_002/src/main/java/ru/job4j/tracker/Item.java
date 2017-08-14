@@ -50,11 +50,11 @@ public class Item {
     /**
      * Item constructor without comments.
      *
-     * @param name     Short name
-     * @param desc     Detailed description
+     * @param name Short name
+     * @param desc Detailed description
      */
     public Item(String name, String desc) {
-        this(name, desc, null); // TODO Get rid of null here, replace by empty array
+        this(name, desc, new String[]{});
     }
 
     /**
@@ -141,11 +141,10 @@ public class Item {
         sb.append("ID: ").append(this.id).append(System.lineSeparator());
         sb.append("Name: ").append(this.name).append(System.lineSeparator());
         sb.append("Desc: ").append(this.desc).append(System.lineSeparator());
-        sb.append("Comments: ");
-        for (String comment: this.comments) {
-            sb.append(comment).append(System.lineSeparator());
+        sb.append("Comments (total ").append(this.comments.length).append(") :").append(System.lineSeparator());
+        for (int i = 0; i < this.comments.length; i++) {
+            sb.append("\t").append(i).append(") ").append(this.comments[i]).append(System.lineSeparator());
         }
-        sb.append(System.lineSeparator());
         return sb.toString();
     }
 }

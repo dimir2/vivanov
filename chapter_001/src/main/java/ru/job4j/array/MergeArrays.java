@@ -21,21 +21,17 @@ public class MergeArrays {
         int l = 0;
         int r = 0;
         int i = 0;
-        while (i < result.length) {
-            if (l < left.length && r < right.length) {
-                if (left[l] < right[r]) {
-                    result[i] = left[l++];
-                } else {
-                    result[i] = right[r++];
-                }
+        while (i < result.length && l < left.length && r < right.length) {
+            if (left[l] < right[r]) {
+                result[i++] = left[l++];
             } else {
-                if (r == right.length) {
-                    result[i] = left[l++];
-                } else {
-                    result[i] = right[r++];
-                }
+                result[i++] = right[r++];
             }
-            i++;
+        }
+        if (r == right.length) {
+            System.arraycopy(left, l, result, i, left.length - l);
+        } else {
+            System.arraycopy(right, r, result, i, right.length - r);
         }
         return result;
     }
