@@ -3,7 +3,6 @@ package ru.job4j.tracker;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.nullValue;
-
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -23,7 +22,7 @@ public class StubInputTest {
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();
         Input stub = new StubInput(new String[]{"1", "name", "desc", "comment", "0"});
-        new StartUI(tracker, stub).init();
+        new StartUI(stub, tracker).init();
         assertThat(tracker.findAll()[0].getName(), is("name"));
     }
 
@@ -36,7 +35,7 @@ public class StubInputTest {
         Item item = new Item("name", "desc", new String[]{"comment"});
         tracker.add(item);
         Input stub = new StubInput(new String[]{"3", item.getId(), "updated name", "upd desc", "", "0"});
-        new StartUI(tracker, stub).init();
+        new StartUI(stub, tracker).init();
         assertThat(tracker.findById(item.getId()).getName(), is("updated name"));
     }
 
@@ -49,7 +48,7 @@ public class StubInputTest {
         Item item = new Item("name", "desc", new String[]{"comment"});
         tracker.add(item);
         Input stub = new StubInput(new String[]{"4", item.getId(), "0"});
-        new StartUI(tracker, stub).init();
+        new StartUI(stub, tracker).init();
         assertThat(tracker.findById(item.getId()), is(nullValue()));
     }
 

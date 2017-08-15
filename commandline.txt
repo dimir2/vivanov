@@ -14,6 +14,9 @@ git reset --hard origin/master
 mvn validate
 mvn clean test
 mvn clean install
+mvn clean package -Dcheckstyle.skip
+mvn clean install -DskipTests
+mvn clean install -Dmaven.test.skip=true
 
 ### java 
 java -cp chapter_001/target/chapter_001-2.0.jar ru.job4j.Calculate

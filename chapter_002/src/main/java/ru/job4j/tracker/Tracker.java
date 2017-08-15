@@ -29,7 +29,7 @@ public class Tracker {
      * @return item object
      */
     public Item add(Item item) {
-        item.setId(UUID.randomUUID().toString());
+        item.setId(UUID.randomUUID().toString().substring(0, 8));
         this.items[this.counter++] = item;
         return item;
     }
