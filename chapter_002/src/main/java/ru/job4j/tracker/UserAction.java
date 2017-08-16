@@ -4,8 +4,8 @@ package ru.job4j.tracker;
  * Interface UserInput.
  *
  * @author Vladimir Ivanov
- * @version 0.1
- * @since 15.08.2017
+ * @version 0.2
+ * @since 16.08.2017
  */
 public interface UserAction {
 
@@ -15,6 +15,13 @@ public interface UserAction {
      * @return Key
      */
     int key();
+
+    /**
+     * Getter for the title.
+     *
+     * @return Action title
+     */
+    String title();
 
     /**
      * Execute an action.

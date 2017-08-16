@@ -6,8 +6,8 @@ import java.util.Arrays;
  * Class TrackerMenu.
  *
  * @author Vladimir Ivanov
- * @version 0.1
- * @since 15.08.2017
+ * @version 0.2
+ * @since 16.08.2017
  */
 public class TrackerMenu {
     /**
@@ -24,7 +24,6 @@ public class TrackerMenu {
      * User Actions.
      */
     private UserAction[] userActions = new UserAction[7];
-
 
     /**
      * Range of menu choices.
@@ -120,7 +119,21 @@ public class TrackerMenu {
         userActions[4] = this.new DeleteItem(4, "Delete item");
         userActions[5] = this.new FindItemById(5, "Find item by id");
         userActions[6] = this.new FindItemsByName(6, "Find items by name");
-        userActions[0] = new ExitProgram(0, "Exit program");
+        userActions[0] = new BaseUserAction(0, "Exit program") {
+            /**
+             * Executor for the action.
+             *
+             * @param input   Input implementation object.
+             * @param tracker Tracker object
+             * @return do continue running
+             */
+            @Override
+            public boolean execute(Input input, Tracker tracker) {
+                System.out.println(TrackerMenu.menuSep());
+                System.out.println("Goodbye!");
+                return false;
+            }
+        };
     }
 
     /**
@@ -152,17 +165,7 @@ public class TrackerMenu {
     /**
      * Show all items action implementation.
      */
-    private static class ShowAllItems implements UserAction {
-
-        /**
-         * Key by which this action can be executed.
-         */
-        private int key;
-
-        /**
-         * Title of this action.
-         */
-        private String title;
+    private static class ShowAllItems extends BaseUserAction {
 
         /**
          * Constructor of the action.
@@ -171,18 +174,7 @@ public class TrackerMenu {
          * @param title Action title
          */
         ShowAllItems(int key, String title) {
-            this.key = key;
-            this.title = title;
-        }
-
-        /**
-         * Getter for the key.
-         *
-         * @return Action key
-         */
-        @Override
-        public int key() {
-            return this.key;
+            super(key, title);
         }
 
         /**
@@ -194,7 +186,7 @@ public class TrackerMenu {
          */
         @Override
         public boolean execute(Input input, Tracker tracker) {
-            System.out.println(menuTitle(title));
+            System.out.println(menuTitle(this.title()));
 
             Item[] items = tracker.findAll();
             System.out.println(menuActionResult(String.format("items (total %s):", items.length)));
@@ -204,32 +196,12 @@ public class TrackerMenu {
             }
             return true;
         }
-
-        /**
-         * Show all action information.
-         *
-         * @return String representing show all items action
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key, this.title);
-        }
     }
 
     /**
      * Add new item action implementation.
      */
-    private class AddNewItem implements UserAction {
-
-        /**
-         * Key by which this action can be executed.
-         */
-        private int key;
-
-        /**
-         * Title of this action.
-         */
-        private String title;
+    private class AddNewItem extends BaseUserAction {
 
         /**
          * Constructor of the action.
@@ -238,18 +210,7 @@ public class TrackerMenu {
          * @param title Action title
          */
         AddNewItem(int key, String title) {
-            this.key = key;
-            this.title = title;
-        }
-
-        /**
-         * Getter for the key.
-         *
-         * @return Action key
-         */
-        @Override
-        public int key() {
-            return this.key;
+            super(key, title);
         }
 
         /**
@@ -261,7 +222,7 @@ public class TrackerMenu {
          */
         @Override
         public boolean execute(Input input, Tracker tracker) {
-            System.out.println(TrackerMenu.menuTitle(title));
+            System.out.println(TrackerMenu.menuTitle(this.title()));
 
             String name = "";
             while (name.isEmpty()) {
@@ -285,30 +246,12 @@ public class TrackerMenu {
             System.out.println(menuSep());
             return true;
         }
-
-        /**
-         * Add new item action information.
-         *
-         * @return String representing the action
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key, this.title);
-        }
     }
 
     /**
      * Edit item action implementation.
      */
-    private class EditItem implements UserAction {
-        /**
-         * Key by which this action can be executed.
-         */
-        private int key;
-        /**
-         * Title of this action.
-         */
-        private String title;
+    private class EditItem extends BaseUserAction {
 
         /**
          * Constructor of the action.
@@ -317,18 +260,7 @@ public class TrackerMenu {
          * @param title Action title
          */
         EditItem(int key, String title) {
-            this.key = key;
-            this.title = title;
-        }
-
-        /**
-         * Getter for the key.
-         *
-         * @return Action key
-         */
-        @Override
-        public int key() {
-            return this.key;
+            super(key, title);
         }
 
         /**
@@ -340,7 +272,7 @@ public class TrackerMenu {
          */
         @Override
         public boolean execute(Input input, Tracker tracker) {
-            System.out.println(TrackerMenu.menuTitle(title));
+            System.out.println(TrackerMenu.menuTitle(this.title()));
 
             String id = input.ask("please enter item id: ");
             Item item = tracker.findById(id);
@@ -376,32 +308,12 @@ public class TrackerMenu {
             }
             return true;
         }
-
-        /**
-         * Edit item action information.
-         *
-         * @return String representing edit item action
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key, this.title);
-        }
     }
 
     /**
      * Delete item action implementation.
      */
-    private class DeleteItem implements UserAction {
-
-        /**
-         * Key by which this action can be executed.
-         */
-        private int key;
-
-        /**
-         * Title of this action.
-         */
-        private String title;
+    private class DeleteItem extends BaseUserAction {
 
         /**
          * Constructor of the action.
@@ -410,18 +322,7 @@ public class TrackerMenu {
          * @param title Action title
          */
         DeleteItem(int key, String title) {
-            this.key = key;
-            this.title = title;
-        }
-
-        /**
-         * Getter for the key.
-         *
-         * @return Action key
-         */
-        @Override
-        public int key() {
-            return this.key;
+            super(key, title);
         }
 
         /**
@@ -433,7 +334,7 @@ public class TrackerMenu {
          */
         @Override
         public boolean execute(Input input, Tracker tracker) {
-            System.out.println(TrackerMenu.menuTitle(title));
+            System.out.println(TrackerMenu.menuTitle(this.title()));
 
             String id = input.ask("please enter item id: ");
             Item item = tracker.findById(id);
@@ -445,32 +346,12 @@ public class TrackerMenu {
             }
             return true;
         }
-
-        /**
-         * Delete item action information.
-         *
-         * @return String representing delete item action
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key, this.title);
-        }
     }
 
     /**
      * Find item by id action implementation.
      */
-    private class FindItemById implements UserAction {
-
-        /**
-         * Key by which this action can be executed.
-         */
-        private int key;
-
-        /**
-         * Title of this action.
-         */
-        private String title;
+    private class FindItemById extends BaseUserAction {
 
         /**
          * Constructor of the action.
@@ -479,18 +360,7 @@ public class TrackerMenu {
          * @param title Action title
          */
         FindItemById(int key, String title) {
-            this.key = key;
-            this.title = title;
-        }
-
-        /**
-         * Getter for the key.
-         *
-         * @return Action key
-         */
-        @Override
-        public int key() {
-            return this.key;
+            super(key, title);
         }
 
         /**
@@ -502,7 +372,7 @@ public class TrackerMenu {
          */
         @Override
         public boolean execute(Input input, Tracker tracker) {
-            System.out.println(TrackerMenu.menuTitle(title));
+            System.out.println(TrackerMenu.menuTitle(this.title()));
 
             String id = input.ask("please enter item id: ");
             Item item = tracker.findById(id);
@@ -515,32 +385,12 @@ public class TrackerMenu {
             }
             return true;
         }
-
-        /**
-         * Find item by ID action information.
-         *
-         * @return String representing the action
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key, this.title);
-        }
     }
 
     /**
      * Find items by name action implementation.
      */
-    private class FindItemsByName implements UserAction {
-
-        /**
-         * Key by which this action can be executed.
-         */
-        private int key;
-
-        /**
-         * Title of this action.
-         */
-        private String title;
+    private class FindItemsByName extends BaseUserAction {
 
         /**
          * Constructor of the action.
@@ -549,18 +399,7 @@ public class TrackerMenu {
          * @param title Action title
          */
         FindItemsByName(int key, String title) {
-            this.key = key;
-            this.title = title;
-        }
-
-        /**
-         * Getter for the key.
-         *
-         * @return Action key
-         */
-        @Override
-        public int key() {
-            return this.key;
+            super(key, title);
         }
 
         /**
@@ -572,7 +411,7 @@ public class TrackerMenu {
          */
         @Override
         public boolean execute(Input input, Tracker tracker) {
-            System.out.println(TrackerMenu.menuTitle(title));
+            System.out.println(TrackerMenu.menuTitle(this.title()));
 
             String name = input.ask("please enter item name: ");
             Item[] items = tracker.findByName(name);
@@ -583,76 +422,5 @@ public class TrackerMenu {
             }
             return true;
         }
-
-        /**
-         * Find item by name action information.
-         *
-         * @return String representing the action
-         */
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key, this.title);
-        }
-    }
-}
-
-/**
- * Exit program action implementation.
- */
-class ExitProgram implements UserAction {
-
-    /**
-     * Key by which this action can be executed.
-     */
-    private int key;
-
-    /**
-     * Title of this action.
-     */
-    private String title;
-
-    /**
-     * Constructor of the action.
-     *
-     * @param key   Action key
-     * @param title Action title
-     */
-    ExitProgram(int key, String title) {
-        this.key = key;
-        this.title = title;
-    }
-
-    /**
-     * Getter for the key.
-     *
-     * @return Action key
-     */
-    @Override
-    public int key() {
-        return this.key;
-    }
-
-    /**
-     * Executor for the action.
-     *
-     * @param input   Input implementation object.
-     * @param tracker Tracker object
-     * @return do continue running
-     */
-    @Override
-    public boolean execute(Input input, Tracker tracker) {
-        System.out.println(TrackerMenu.menuSep());
-        System.out.println("Goodbye!");
-        return false;
-    }
-
-    /**
-     * Exit program action information.
-     *
-     * @return String representing the action
-     */
-    @Override
-    public String info() {
-        return String.format("%s. %s", this.key, this.title);
     }
 }
