@@ -10,7 +10,6 @@ package ru.job4j.tracker;
  * @since 14.08.2013
  */
 public class StubInput implements Input {
-
     /**
      * Answers to emulate user input.
      */
@@ -40,5 +39,18 @@ public class StubInput implements Input {
     @Override
     public String ask(String question) {
         return this.answers[counter++];
+    }
+
+    /**
+     * Ask a question with the predefined range of answers and return the answer.
+     *
+     * @param question Question to ask
+     * @param range    Range of answers
+     * @return Answer
+     */
+    @Override
+    public int ask(String question, int[] range) {
+        int answer = Integer.valueOf(this.ask(question));
+        return answer;
     }
 }

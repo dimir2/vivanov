@@ -16,5 +16,14 @@ public interface Input {
      * @return Answer
      */
     String ask(String question);
+
+    /**
+     * Ask a question with the predefined range of answers and return the answer.
+     *
+     * @param question Question to ask
+     * @param range    Range of answers
+     * @return Answer
+     */
+    int ask(String question, int[] range);
 }
 

@@ -20,6 +20,11 @@ public class StartUI {
     private final Tracker tracker;
 
     /**
+     * Range of the tracker menu choices.
+     */
+    private int[] menuRange;
+
+    /**
      * StartUI constructor.
      *
      * @param input   User input implementation
@@ -36,7 +41,7 @@ public class StartUI {
      * @param args Command line arguments
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateConsoleInput(), new Tracker()).init();
     }
 
     /**
@@ -44,8 +49,22 @@ public class StartUI {
      */
     public void init() {
         TrackerMenu menu = new TrackerMenu(this.input, this.tracker);
+        menuRange = menu.getMenuRange();
+        boolean continueRunning = true;
+        int actionKey;
         do {
             menu.show();
-        } while (menu.choice(this.input.ask("Select: ")));
+            try {
+                actionKey = this.input.ask("Select: ", menu.getMenuRange());
+            } catch (MenuOutOfRangeException me) {
+                System.out.println(TrackerMenu.menuActionResult("please select key from menu."));
+                continue;
+            } catch (NumberFormatException ne) {
+                System.out.println(TrackerMenu.menuActionResult("please enter valid menu key."));
+                continue;
+            }
+            continueRunning = menu.choice(actionKey);
+
+        } while (continueRunning);
     }
 }

@@ -138,12 +138,12 @@ public class Item {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("ID: ").append(this.id).append(System.lineSeparator());
-        sb.append("Name: ").append(this.name).append(System.lineSeparator());
-        sb.append("Desc: ").append(this.desc).append(System.lineSeparator());
-        sb.append("Comments (total ").append(this.comments.length).append(") :").append(System.lineSeparator());
+        sb.append(String.format("    id: %s", this.id)).append(System.lineSeparator());
+        sb.append(String.format("  name: %s", this.name)).append(System.lineSeparator());
+        sb.append(String.format("  desc: %s", this.desc)).append(System.lineSeparator());
+        sb.append(String.format("  comments (%d):", this.comments.length));
         for (int i = 0; i < this.comments.length; i++) {
-            sb.append("\t").append(i).append(") ").append(this.comments[i]).append(System.lineSeparator());
+            sb.append(System.lineSeparator()).append(String.format("%6d) %s", i, this.comments[i]));
         }
         return sb.toString();
     }

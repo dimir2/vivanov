@@ -27,4 +27,16 @@ public class ConsoleInput implements Input {
         System.out.print(question);
         return scanner.nextLine();
     }
+
+    /**
+     * Ask a question with the predefined range of answers and return the answer.
+     *
+     * @param question Question to ask
+     * @param range    Range of answers
+     * @return Answer
+     */
+    @Override
+    public int ask(String question, int[] range) {
+        return Integer.valueOf(this.ask(question));
+    }
 }
