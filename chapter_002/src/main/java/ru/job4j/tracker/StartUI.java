@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.List;
+
 /**
  * Class StarUI.
  *
@@ -22,7 +24,7 @@ public class StartUI {
     /**
      * Range of the tracker menu choices.
      */
-    private int[] menuRange;
+    private List<Integer> menuRange;
 
     /**
      * StartUI constructor.
