@@ -12,11 +12,13 @@ abstract class Figure {
     /**
      * Board cell where the figure is placed.
      */
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     final Cell cell;
 
     /**
      * Move getStrategy implementation.
      */
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     MoveStrategy strategy;
 
     /**
