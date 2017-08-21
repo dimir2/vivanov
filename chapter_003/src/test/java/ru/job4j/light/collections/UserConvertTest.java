@@ -1,8 +1,9 @@
-package ru.job4j.light;
+package ru.job4j.light.collections;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,15 +23,18 @@ public class UserConvertTest {
      */
     @Test
     public void whenConvertUserListThenGetHashMap() {
-        List<User> list = new ArrayList<>();
-        list.add(new User(1, "sergey", "nn"));
-        list.add(new User(2, "maxim", "msk"));
-        list.add(new User(3, "olga", "omsk"));
+        List<User> list = new ArrayList<>(Arrays.asList(
+                new User(1, "sergey", "nn"),
+                new User(2, "maxim", "msk"),
+                new User(3, "olga", "omsk"))
+        );
         HashMap<Integer, User> result = new UserConvert().process(list);
+
         HashMap<Integer, User> expected = new HashMap<>();
-        expected.put(Integer.valueOf(1), new User(1, "sergey", "nn"));
-        expected.put(Integer.valueOf(2), new User(2, "maxim", "msk"));
-        expected.put(Integer.valueOf(3), new User(3, "olga", "omsk"));
+        expected.put(1, new User(1, "sergey", "nn"));
+        expected.put(2, new User(2, "maxim", "msk"));
+        expected.put(3, new User(3, "olga", "omsk"));
+
         assertThat(result, is(expected));
     }
 

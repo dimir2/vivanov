@@ -1,4 +1,4 @@
-package ru.job4j.light;
+package ru.job4j.light.collections;
 
 /**
  * Class User.
@@ -48,16 +48,17 @@ public class User {
     public boolean equals(Object o) {
         boolean result = true;
         if (this != o) {
-            if (o == null || getClass() != o.getClass()) {
+            if (!(o instanceof User)) {
                 result = false;
             } else {
                 User user = (User) o;
                 if (id != user.id) {
                     result = false;
-                } else if ((name != null) ? !name.equals(user.name) : user.name != null) {
-                    result = false;
                 } else {
-                    result = (city != null) ? city.equals(user.city) : user.city == null;
+                    result = (name != null) ? name.equals(user.name) : user.name == null;
+                    if (result) {
+                        result = (city != null) ? city.equals(user.city) : user.city == null;
+                    }
                 }
             }
         }
