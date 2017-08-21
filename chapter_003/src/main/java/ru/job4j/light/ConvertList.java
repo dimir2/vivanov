@@ -50,4 +50,20 @@ public class ConvertList {
         }
         return result;
     }
+
+    /**
+     * Convert List containing arrays of ints to List with Integers.
+     *
+     * @param list List with arrays of ints
+     * @return List of Integers.
+     */
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> result = new ArrayList<>();
+        for (int[] array : list) {
+            for (int value : array) {
+                result.add(value);
+            }
+        }
+        return result;
+    }
 }
