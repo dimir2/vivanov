@@ -26,6 +26,7 @@ public class SortUser {
     /**
      * Sort user list by name length.
      *
+     * @param list User list.
      * @return Sorted user list.
      */
     public List<User> sortByNameLength(List<User> list) {
@@ -41,6 +42,7 @@ public class SortUser {
     /**
      * Sort user list by all fields.
      *
+     * @param list User list.
      * @return Sorted user list.
      */
     public List<User> sortByAllFields(List<User> list) {

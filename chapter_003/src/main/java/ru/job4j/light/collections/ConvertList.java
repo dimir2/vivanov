@@ -21,6 +21,9 @@ public class ConvertList {
     public List<Integer> toList(int[][] array) {
         List<Integer> list = new ArrayList<>();
         for (int[] row : array) {
+            if (row == null) {
+                continue;
+            }
             for (int value : row) {
                 list.add(value);
             }
@@ -36,11 +39,16 @@ public class ConvertList {
      * @return Resulting two-dimensional array of ints.
      */
     public int[][] toArray(List<Integer> list, int rows) {
-        int listSize = list.size();
-        int columns = (int) Math.ceil((double) listSize / rows);
+        for (int index = 0; index < list.size(); index++) {
+            if (list.get(index) == null) {
+                list.remove(index);
+            }
+        }
+        int size = list.size();
+        int columns = (int) Math.ceil((double) size / rows);
         int[][] result = new int[rows][columns];
         int index = 0;
-        while (index < listSize) {
+        while (index < size) {
             result[index / columns][index % columns] = list.get(index);
             index++;
         }
@@ -60,8 +68,10 @@ public class ConvertList {
     public List<Integer> convert(List<int[]> list) {
         List<Integer> result = new ArrayList<>();
         for (int[] array : list) {
-            for (int value : array) {
-                result.add(value);
+            if (array != null) {
+                for (int value : array) {
+                    result.add(value);
+                }
             }
         }
         return result;
