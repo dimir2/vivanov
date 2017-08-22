@@ -2,6 +2,10 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -72,19 +76,19 @@ public class ItemTest {
      */
     @Test
     public void whenCreateItemWithCommentsThenItemHasSameComments() {
-        Item item = new Item("name", "desc", new String[]{"comment"});
-        String[] expected = new String[]{"comment"};
+        Item item = new Item("name", "desc", "comment");
+        List<String> expected = new ArrayList<>(Arrays.asList("comment"));
         assertThat(item.getComments(), is(expected));
     }
 
     /**
-     * Set item comments test.
+     * Add item comments test.
      */
     @Test
-    public void whenSetItemCommetsThenItemHasSameComments() {
-        Item item = new Item("name", "desc", new String[]{"comment"});
-        String[] expected = new String[]{"TestItemCOmments"};
-        item.setComments(expected);
+    public void whenAddItemCommetsThenItemHasBothComments() {
+        Item item = new Item("name", "desc", "comment");
+        List<String> expected = new ArrayList<>(Arrays.asList("comment", "added comment"));
+        item.addComment("added comment");
         assertThat(item.getComments(), is(expected));
     }
 

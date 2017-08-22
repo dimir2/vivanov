@@ -14,7 +14,6 @@ import static org.junit.Assert.assertThat;
  * @since 14.08.2017
  */
 public class StubInputTest {
-
     /**
      * Item add Test.
      */
@@ -23,7 +22,7 @@ public class StubInputTest {
         Tracker tracker = new Tracker();
         Input stub = new StubInput(new String[]{"1", "name", "desc", "comment", "0"});
         new StartUI(stub, tracker).init();
-        assertThat(tracker.findAll()[0].getName(), is("name"));
+        assertThat(tracker.findAll().get(0).getName(), is("name"));
     }
 
     /**
@@ -32,7 +31,7 @@ public class StubInputTest {
     @Test
     public void whenEditThenTrackerHasUpdatedValue() {
         Tracker tracker = new Tracker();
-        Item item = new Item("name", "desc", new String[]{"comment"});
+        Item item = new Item("name", "desc", "comment");
         tracker.add(item);
         Input stub = new StubInput(new String[]{"3", item.getId(), "updated name", "upd desc", "", "0"});
         new StartUI(stub, tracker).init();
@@ -45,7 +44,7 @@ public class StubInputTest {
     @Test
     public void whenDeleteItemThenTrackerHasNoSuchItem() {
         Tracker tracker = new Tracker();
-        Item item = new Item("name", "desc", new String[]{"comment"});
+        Item item = new Item("name", "desc", "comment");
         tracker.add(item);
         Input stub = new StubInput(new String[]{"4", item.getId(), "0"});
         new StartUI(stub, tracker).init();

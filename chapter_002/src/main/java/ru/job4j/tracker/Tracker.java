@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -15,12 +16,7 @@ public class Tracker {
     /**
      * Items Storage (hardcoded capacity is 100).
      */
-    private Item[] items = new Item[100];
-
-    /**
-     * Internal counter (updated during add/delete ops).
-     */
-    private int counter = 0;
+    private List<Item> items = new ArrayList<>();
 
     /**
      * Add item.
@@ -30,7 +26,7 @@ public class Tracker {
      */
     public Item add(Item item) {
         item.setId(UUID.randomUUID().toString().substring(0, 8));
-        this.items[this.counter++] = item;
+        this.items.add(item);
         return item;
     }
 
@@ -41,7 +37,7 @@ public class Tracker {
      */
     public void update(Item item) {
         int index = this.findIndexById(item.getId());
-        this.items[index] = item;
+        this.items.set(index, item);
 
     }
 
@@ -52,10 +48,7 @@ public class Tracker {
      */
     public void delete(Item item) {
         int index = this.findIndexById(item.getId());
-        for (int i = index + 1; i < this.counter; i++) {
-            this.items[i - 1] = this.items[i];
-        }
-        this.items[--this.counter] = null;
+        this.items.remove(index);
     }
 
     /**
@@ -63,8 +56,8 @@ public class Tracker {
      *
      * @return Array with all items
      */
-    public Item[] findAll() {
-        return Arrays.copyOf(this.items, this.counter);
+    public List<Item> findAll() {
+        return new ArrayList<Item>(this.items);
     }
 
     /**
@@ -73,17 +66,12 @@ public class Tracker {
      * @param name Name for search items
      * @return Array with items with the given name.
      */
-    public Item[] findByName(String name) {
-        int[] indexes = new int[this.counter];
-        int count = 0;
-        for (int i = 0; i < this.counter; i++) {
-            if (this.items[i].getName().equals(name)) {
-                indexes[count++] = i;
+    public List<Item> findByName(String name) {
+        List<Item> result = new ArrayList<>();
+        for (Item item : this.items) {
+            if (item.getName().equals(name)) {
+                result.add(item);
             }
-        }
-        Item[] result = new Item[count];
-        for (int i = 0; i < count; i++) {
-            result[i] = this.items[indexes[i]];
         }
         return result;
     }
@@ -98,7 +86,7 @@ public class Tracker {
         Item result = null;
         int index = this.findIndexById(id);
         if (index >= 0) {
-            result = this.items[index];
+            result = this.items.get(index);
         }
         return result;
     }
@@ -111,9 +99,9 @@ public class Tracker {
      */
     private int findIndexById(String id) {
         int result = -1;
-        for (int i = 0; i < this.counter; i++) {
-            if (this.items[i].getId().equals(id)) {
-                result = i;
+        for (int index = 0; index < this.items.size(); index++) {
+            if (this.items.get(index).getId().equals(id)) {
+                result = index;
                 break;
             }
         }

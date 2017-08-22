@@ -6,4 +6,4 @@
  * @since 21.08.2017
  */
 
-package ru.job4j.light;
+package ru.job4j.light.collections;

@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class TrackerMenu.
@@ -23,12 +24,12 @@ public class TrackerMenu {
     /**
      * User Actions.
      */
-    private UserAction[] userActions = new UserAction[7];
+    private List<UserAction> userActions = new ArrayList<>();
 
     /**
      * Range of menu choices.
      */
-    private int[] menuRange;
+    private List<Integer> menuRange;
 
     /**
      * Constructor of Menu.
@@ -87,14 +88,14 @@ public class TrackerMenu {
     public void show() {
         System.out.println(menuTitle("Tracker Menu"));
 
-        for (int index = 1; index < this.userActions.length; index++) {
-            if (userActions[index] != null) {
-                System.out.println(userActions[index].info());
+        for (int index = 1; index < this.userActions.size(); index++) {
+            if (userActions.get(index) != null) {
+                System.out.println(userActions.get(index).info());
             }
         }
         System.out.println(menuSep());
-        if (userActions[0] != null) {
-            System.out.println(userActions[0].info());
+        if (userActions.get(0) != null) {
+            System.out.println(userActions.get(0).info());
         }
         System.out.println(menuSep());
     }
@@ -106,20 +107,14 @@ public class TrackerMenu {
      * @return do continue running.
      */
     public boolean choice(int key) {
-        return this.userActions[key].execute(this.input, this.tracker);
+        return this.userActions.get(key).execute(this.input, this.tracker);
     }
 
     /**
      * Fill menu with the user actions.
      */
     private void fillMenu() {
-        userActions[1] = this.new AddNewItem(1, "Add new item");
-        userActions[2] = new TrackerMenu.ShowAllItems(2, "Show all items");
-        userActions[3] = this.new EditItem(3, "Edit item");
-        userActions[4] = this.new DeleteItem(4, "Delete item");
-        userActions[5] = this.new FindItemById(5, "Find item by id");
-        userActions[6] = this.new FindItemsByName(6, "Find items by name");
-        userActions[0] = new BaseUserAction(0, "Exit program") {
+        userActions.add(0, new BaseUserAction(0, "Exit program") {
             /**
              * Executor for the action.
              *
@@ -133,22 +128,24 @@ public class TrackerMenu {
                 System.out.println("Goodbye!");
                 return false;
             }
-        };
+        });
+        userActions.add(1, this.new AddNewItem(1, "Add new item"));
+        userActions.add(2, new TrackerMenu.ShowAllItems(2, "Show all items"));
+        userActions.add(3, this.new EditItem(3, "Edit item"));
+        userActions.add(4, this.new DeleteItem(4, "Delete item"));
+        userActions.add(5, this.new FindItemById(5, "Find item by id"));
+        userActions.add(6, this.new FindItemsByName(6, "Find items by name"));
     }
 
     /**
      * Fill menu range.
      */
     private void fillMenuRange() {
-        int[] range = new int[this.userActions.length];
-        int index = 0;
+        List<Integer> range = new ArrayList<>();
         for (UserAction action : this.userActions) {
             if (action != null) {
-                range[index++] = action.key();
+                range.add(action.key());
             }
-        }
-        if (index != this.userActions.length) {
-            range = Arrays.copyOf(range, index);
         }
         this.menuRange = range;
     }
@@ -158,7 +155,7 @@ public class TrackerMenu {
      *
      * @return Menu range
      */
-    public int[] getMenuRange() {
+    public List<Integer> getMenuRange() {
         return this.menuRange;
     }
 
@@ -188,8 +185,8 @@ public class TrackerMenu {
         public boolean execute(Input input, Tracker tracker) {
             System.out.println(menuTitle(this.title()));
 
-            Item[] items = tracker.findAll();
-            System.out.println(menuActionResult(String.format("items (total %s):", items.length)));
+            List<Item> items = tracker.findAll();
+            System.out.println(menuActionResult(String.format("items (total %s):", items.size())));
             for (Item item : items) {
                 System.out.println(item.toString());
                 System.out.println(menuSep());
@@ -202,7 +199,6 @@ public class TrackerMenu {
      * Add new item action implementation.
      */
     private class AddNewItem extends BaseUserAction {
-
         /**
          * Constructor of the action.
          *
@@ -237,9 +233,10 @@ public class TrackerMenu {
             String comment = "";
             comment = input.ask("please enter comment (optional): ");
 
-            String[] comments = (comment.isEmpty()) ? new String[]{} : new String[]{comment};
-
-            Item item = tracker.add(new Item(name, desc, comments));
+            if (comment.isEmpty()) {
+                comment = null;
+            }
+            Item item = tracker.add(new Item(name, desc, comment));
 
             System.out.println(menuActionResult("item added successfully"));
             System.out.println(item.toString());
@@ -252,7 +249,6 @@ public class TrackerMenu {
      * Edit item action implementation.
      */
     private class EditItem extends BaseUserAction {
-
         /**
          * Constructor of the action.
          *
@@ -296,10 +292,7 @@ public class TrackerMenu {
                 String comment = "";
                 comment = input.ask("please add comment (optional): ");
                 if (!comment.isEmpty()) {
-                    String[] oldComments = item.getComments();
-                    String[] newComments = Arrays.copyOf(oldComments, oldComments.length + 1);
-                    newComments[newComments.length - 1] = comment;
-                    item.setComments(newComments);
+                    item.addComment(comment);
                 }
 
                 System.out.println(menuActionResult("item updated successfully"));
@@ -314,7 +307,6 @@ public class TrackerMenu {
      * Delete item action implementation.
      */
     private class DeleteItem extends BaseUserAction {
-
         /**
          * Constructor of the action.
          *
@@ -414,8 +406,8 @@ public class TrackerMenu {
             System.out.println(TrackerMenu.menuTitle(this.title()));
 
             String name = input.ask("please enter item name: ");
-            Item[] items = tracker.findByName(name);
-            System.out.println(menuActionResult(String.format("items found: (%d)", items.length)));
+            List<Item> items = tracker.findByName(name);
+            System.out.println(menuActionResult(String.format("items found: (%d)", items.size())));
             for (Item item : items) {
                 System.out.println(item.toString());
                 System.out.println(menuSep());

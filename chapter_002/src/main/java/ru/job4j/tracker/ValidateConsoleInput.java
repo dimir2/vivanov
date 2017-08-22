@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.List;
+
 /**
  * Class ValidateCondoleInput.
  *
@@ -17,15 +19,9 @@ public class ValidateConsoleInput extends ConsoleInput {
      * @return Answer
      */
     @Override
-    public int ask(String question, int[] range) throws MenuOutOfRangeException, NumberFormatException {
+    public int ask(String question, List<Integer> range) throws MenuOutOfRangeException, NumberFormatException {
         int answer = super.ask(question, range);
-        boolean exist = false;
-        for (int key : range) {
-            if (answer == key) {
-                exist = true;
-                break;
-            }
-        }
+        boolean exist = range.contains(answer);
         if (!exist) {
             throw new MenuOutOfRangeException("Menu out of range");
         }

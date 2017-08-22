@@ -12,10 +12,12 @@ class Cell {
     /**
      * Cell row position.
      */
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     final int row;
     /**
      * Cell column position.
      */
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     final int column;
 
     /**
