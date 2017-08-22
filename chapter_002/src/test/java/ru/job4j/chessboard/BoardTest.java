@@ -2,6 +2,7 @@ package ru.job4j.chessboard;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -13,7 +14,6 @@ import static org.junit.Assert.assertThat;
  * @since 18.08.2017
  */
 public class BoardTest {
-
     /**
      * Row and column to cell name test.
      */
@@ -70,15 +70,22 @@ public class BoardTest {
     }
 
     /**
-     * Move figure test.
+     * No figure on cell to move.
      */
     @Test
-    public void whenMoveBishopFromD5ToE6ThenItIsMoved() {
+    public void whenNoFigureOnCellToMoveThenGotFigureNotFoundException() {
         Board board = new Board();
-        Cell d5 = board.getCellByCellName("d5");
-        Cell e6 = board.getCellByCellName("e6");
-        board.placeFigure(new Bishop(d5, new BishopMoveStrategy()));
-        boolean result = board.move(d5, e6);
-        assertThat(result, is(true));
+        Cell f1 = new Cell(7, 5);
+        Cell c1 = new Cell(7, 2);
+        Cell f4 = new Cell(4, 5);
+        board.placeFigure(new Bishop(f1));
+
+        Exception exception = null;
+        try {
+            board.move(c1, f4);
+        } catch (Exception e) {
+            exception = e;
+        }
+        assertThat("FigureNotFoundException was caught", exception, instanceOf(FigureNotFoundException.class));
     }
 }

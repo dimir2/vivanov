@@ -29,7 +29,6 @@ abstract class MoveStrategy {
      * @since 18.08.2017
      */
     static class Movement {
-
         /**
          * If possible, creates the array of cells, representing the diagonal.
          *
@@ -39,20 +38,43 @@ abstract class MoveStrategy {
          */
         public static Cell[] getDiagonalCells(Cell begin, Cell end) {
             Cell[] cells = null;
-            int height = end.row - begin.row;
-            int width = end.column - begin.column;
-            if (Math.abs(width) == Math.abs(height)) {
-                int length = Math.abs(height) + 1;
+            int rowBias = end.row - begin.row;
+            int columnBias = end.column - begin.column;
+            if (Math.abs(columnBias) == Math.abs(rowBias)) {
+                int rowStep = rowBias / Math.abs(rowBias);
+                int columnStep = columnBias / Math.abs(columnBias);
+                int length = Math.abs(rowBias) + 1;
                 cells = new Cell[length];
-                int row = begin.row;
-                int col = begin.column;
-                int rowStep = height / Math.abs(height);
-                int colStep = width / Math.abs(width);
                 for (int index = 0; index < length; index++) {
-                    cells[index] = new Cell(row + rowStep * index, col + colStep * index);
+                    cells[index] = new Cell(begin.row + rowStep * index, begin.column + columnStep * index);
+                }
+            }
+            return cells;
+        }
+
+        /**
+         * If possible, creates the array of cells, representing the axis move.
+         *
+         * @param begin Start cell
+         * @param end   End cell
+         * @return Array of cells, null if cells are not belong any axis.
+         */
+        public static Cell[] getAxisCells(Cell begin, Cell end) {
+            Cell[] cells = null;
+            int rowBias = end.row - begin.row;
+            int columnBias = end.column - begin.column;
+            if (rowBias == 0 || columnBias == 0) {
+                int rowStep = (rowBias == 0) ? 0 : rowBias / Math.abs(rowBias);
+                int columnStep = (columnBias == 0) ? 0 : columnBias / Math.abs(columnBias);
+                int length = Math.abs(rowBias) + Math.abs(columnBias) + 1;
+                cells = new Cell[length];
+                for (int index = 0; index < length; index++) {
+                    cells[index] = new Cell(begin.row + rowStep * index, begin.column + columnStep * index);
                 }
             }
             return cells;
         }
     }
+
+
 }

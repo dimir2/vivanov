@@ -1,13 +1,13 @@
 package ru.job4j.chessboard;
 
 /**
- * Class BishopMoveStrategy.
+ * Class KnightMoveStrategy.
  *
  * @author Vladimir Ivanov
  * @version 0.1
- * @since 18.08.2017
+ * @since 23.08.2017
  */
-public class BishopMoveStrategy extends MoveStrategy {
+public class KnightMoveStrategy extends MoveStrategy {
     /**
      * Calculate all cells, figure must step on its way to destination.
      *
@@ -18,9 +18,13 @@ public class BishopMoveStrategy extends MoveStrategy {
      */
     @Override
     Cell[] way(Cell from, Cell to) throws ImpossibleMoveException {
-        Cell[] way = Movement.getDiagonalCells(from, to);
-        if (way == null) {
-            throw new ImpossibleMoveException("Destination cell is not on Bishop way");
+        Cell[] way = null;
+        int rowBias = Math.abs(to.row - from.row);
+        int columnBias = Math.abs(to.column - from.column);
+        if ((rowBias == 2 && columnBias == 1) || (rowBias == 1 && columnBias == 2)) {
+            way = new Cell[]{from, to};
+        } else {
+            throw new ImpossibleMoveException("Destination cell is not on Knight way");
         }
         return way;
     }
