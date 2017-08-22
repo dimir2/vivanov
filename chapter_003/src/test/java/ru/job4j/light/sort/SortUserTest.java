@@ -41,4 +41,52 @@ public class SortUserTest {
                 new User("alex", 32)));
         assertThat(result, is(expected));
     }
+
+    /**
+     * Sort by name length test.
+     */
+    @Test
+    public void whenSortListByNameLengthThenItIsSorted() {
+        List<User> list = new LinkedList<>(Arrays.asList(
+                new User("marina", 18),
+                new User("ana", 25),
+                new User("kiril", 20),
+                new User("olga", 23),
+                new User("alexander", 21))
+        );
+
+        List<User> expected = new LinkedList<>(Arrays.asList(
+                new User("ana", 25),
+                new User("olga", 23),
+                new User("kiril", 20),
+                new User("marina", 18),
+                new User("alexander", 21))
+        );
+        assertThat(new SortUser().sortByNameLength(list), is(expected));
+    }
+
+    /**
+     * Sort by name then by age.
+     */
+    @Test
+    public void whenSortListByNameAndAgeThenItIsSorted() {
+        List<User> list = new LinkedList<>(Arrays.asList(
+                new User("marina", 18),
+                new User("oleg", 25),
+                new User("kiril", 20),
+                new User("alex", 32),
+                new User("olga", 23),
+                new User("alex", 21))
+        );
+
+        List<User> expected = new LinkedList<User>(Arrays.asList(
+                new User("alex", 21),
+                new User("alex", 32),
+                new User("kiril", 20),
+                new User("marina", 18),
+                new User("oleg", 25),
+                new User("olga", 23)
+        ));
+        assertThat(new SortUser().sortByAllFields(list), is(expected));
+    }
 }
