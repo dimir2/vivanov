@@ -10,6 +10,15 @@ git push -f
 git fetch origin
 git reset --hard origin/master
 
+# to delete branch
+   git branch -d the_local_branch
+# to remove a remote branch (if you know what you are doing!)
+   git push origin :the_remote_branch
+#or simply use the new syntax (v1.7.0)
+   git push origin --delete the_remote_branch
+# if you have some issues with refs/
+   git fetch -p (or --prune)
+
 ### maven 
 mvn validate
 mvn clean test
