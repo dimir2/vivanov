@@ -1,5 +1,7 @@
 package ru.job4j.chessboard;
 
+import static java.lang.String.format;
+
 /**
  * Class Cell.
  *
@@ -52,9 +54,20 @@ class Cell {
         boolean result = super.equals(obj);
         if (!result) {
             if (obj instanceof Cell) {
-                result = this.row == ((Cell) obj).row && this.column == ((Cell) obj).column;
+                Cell cell = (Cell) obj;
+                result = this.row == cell.row && this.column == cell.column;
             }
         }
         return result;
+    }
+
+    /**
+     * Converts cell object to string.
+     *
+     * @return String representing the cell.
+     */
+    @Override
+    public String toString() {
+        return format("Cell{row=%d, column=%d}", this.row, this.column);
     }
 }

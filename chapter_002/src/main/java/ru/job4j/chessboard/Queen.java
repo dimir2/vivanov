@@ -1,30 +1,30 @@
 package ru.job4j.chessboard;
 
 /**
- * Class Bishop.
+ * Class Queen.
  *
  * @author Vladimir Ivanov
- * @version 0.2
- * @since 19.08.2017
+ * @version 0.1
+ * @since 23.08.2017
  */
-public class Bishop extends Figure {
+public class Queen extends Figure {
     /**
-     * Construct Bishop figure.
+     * Construct Queen figure.
      *
      * @param position Figure position
      * @param strategy Bishop move strategy.
      */
-    Bishop(Cell position, MoveStrategy strategy) {
+    Queen(Cell position, MoveStrategy strategy) {
         super(position, strategy);
     }
 
     /**
-     * Construct Bishop figure with default move strategy.
+     * Construct Queen figure with default move strategy.
      *
      * @param position Figure position.
      */
-    Bishop(Cell position) {
-        this(position, new BishopMoveStrategy());
+    Queen(Cell position) {
+        this(position, new QueenMoveStrategy());
     }
 
     /**
@@ -35,6 +35,6 @@ public class Bishop extends Figure {
      */
     @Override
     Figure move(Cell dest) {
-        return new Bishop(dest, this.strategy);
+        return new Queen(dest, this.strategy);
     }
 }

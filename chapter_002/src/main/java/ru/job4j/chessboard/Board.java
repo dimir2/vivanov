@@ -1,5 +1,7 @@
 package ru.job4j.chessboard;
 
+import static java.lang.String.format;
+
 /**
  * Class Board.
  *
@@ -57,7 +59,7 @@ public class Board {
      * @return Cell name
      */
     public String rowColumnToCellName(int row, int col) {
-        return String.format("%s%s", (char) ('a' + col), ROW_COUNT - row);
+        return format("%s%s", (char) ('a' + col), ROW_COUNT - row);
     }
 
     /**
@@ -96,22 +98,39 @@ public class Board {
      */
     public boolean move(Cell from, Cell to) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
         boolean result = true;
-        Figure figure = this.getFigureOnCell(from);
-
-        if (figure == null) {
-            throw new FigureNotFoundException("Figure not found on cell: " + this.getCellName(from));
+        Figure figure;
+        if (this.isCellOnBoard(from)) {
+            figure = this.getFigureOnCell(from);
+            if (figure == null) {
+                throw new FigureNotFoundException("Figure not found on cell: " + this.getCellName(from));
+            }
+        } else {
+            throw new ImpossibleMoveException(format("Cell %s does not belong the board.", from.toString()));
         }
 
-        Cell[] way = figure.way(to);
-
+        Cell[] way;
+        if (this.isCellOnBoard(to)) {
+            way = figure.way(to);
+        } else {
+            throw new ImpossibleMoveException(format("Cell %s does not belong the board.", to.toString()));
+        }
         for (int index = 1; index < way.length; index++) {
             if (this.getFigureOnCell(way[index]) != null) {
                 throw new OccupiedWayException("Occupied cell on the figure way: " + this.getCellName(way[index]));
             }
         }
-
         this.figures[this.getFigureIndex(figure)] = figure.move(to);
         return result;
+    }
+
+    /**
+     * Define if the cell belongs the board.
+     *
+     * @param cell Cell to test.
+     * @return True if on board, false otherwise
+     */
+    public boolean isCellOnBoard(Cell cell) {
+        return (cell.row >= 0 && cell.column >= 0 && cell.row < ROW_COUNT && cell.column < COLUMN_COUNT);
     }
 
     /**
