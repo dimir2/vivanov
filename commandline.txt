@@ -19,6 +19,14 @@ git reset --hard origin/master
 # if you have some issues with refs/
    git fetch -p (or --prune)
 
+# to move current (not committed) work on another branch
+git stash save
+git stash list
+git status
+git checkout homework
+git stash pop
+
+
 ### maven 
 mvn validate
 mvn clean test

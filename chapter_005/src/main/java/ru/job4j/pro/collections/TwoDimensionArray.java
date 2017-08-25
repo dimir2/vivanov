@@ -31,7 +31,7 @@ public class TwoDimensionArray implements Iterable {
      * @return Iterator.
      */
     @Override
-    public Iterator iterator() {
+    public Iterator<Integer> iterator() {
         return new TwoDimensionArrayIterator(this.array);
     }
 }
