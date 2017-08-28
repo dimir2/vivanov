@@ -1,4 +1,4 @@
-package ru.job4j.pro.collections;
+package ru.job4j.pro.collections.generic;
 
 import static java.lang.String.format;
 
@@ -26,7 +26,7 @@ public class SimpleArray<T> {
      *
      * @param capacity Array capacity.
      */
-    SimpleArray(int capacity) {
+    public SimpleArray(int capacity) {
         this.array = new Object[capacity];
         this.position = 0;
     }
