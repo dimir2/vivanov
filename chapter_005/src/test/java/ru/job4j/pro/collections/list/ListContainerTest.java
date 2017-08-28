@@ -10,54 +10,56 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * ArrayContainerTest class.
+ * Class ListContainerTest.
  *
- * @author Vladimir Ivanov
+ * @author Vladimir
  * @version 0.1
- * @since 28.08.2017
+ * @since 29.08.2017
  */
-public class ArrayContainerTest {
+public class ListContainerTest {
     /**
-     * Test add Integer to container and get it.
+     * Test add elements.
      */
     @Test
-    public void whenAddIntegerToArrayContainerThenGetItIn() {
-        SimpleContainer<Integer> arr = new ArrayContainer<>();
-        arr.add(1);
-        arr.add(2);
-        arr.add(3);
+    public void whenAddIntegersToListContainerThenCanGetThemBack() {
+        SimpleContainer<Integer> list = new ListContainer<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
 
-        int result = arr.get(1);
-        assertThat(result, is(2));
+        int result = list.get(2);
+
+        assertThat(result, is(3));
     }
 
     /**
      * Test add String to container and get it.
      */
     @Test
-    public void whenAddStringToArrayContainerThenGetItIn() {
-        SimpleContainer<String> arr = new ArrayContainer<>();
-        arr.add(new String("one"));
-        arr.add(new String("two"));
-        arr.add(new String("three"));
+    public void whenAddStringToListContainerThenGetItIn() {
+        SimpleContainer<String> list = new ListContainer<>();
+        list.add(new String("one"));
+        list.add(new String("two"));
+        list.add(new String("three"));
 
-        String result = arr.get(2);
+        String result = list.get(2);
         assertThat(result, is("three"));
     }
 
+
     /**
-     * Test that ArrayContainer is iterable with foreach.
+     * Test that ListContainer is iterable with foreach.
      */
     @Test
     public void whenGetIteratorThenCanForEachContainer() {
-        SimpleContainer<String> arr = new ArrayContainer<>();
-        arr.add(new String("one"));
-        arr.add(new String("two"));
-        arr.add(new String("three"));
+        SimpleContainer<String> list = new ListContainer<>();
+        list.add(new String("one"));
+        list.add(new String("two"));
+        list.add(new String("three"));
 
         String result = "";
-        for (String str : arr) {
-            result += str + ":";
+        for (String str : list) {
+            result = result + str + ":";
         }
         assertThat(result, is("one:two:three:"));
     }
@@ -66,8 +68,8 @@ public class ArrayContainerTest {
      * Test that next after last element will cause NoSuchElementException.
      */
     @Test
-    public void whenNoElementsLeftInArrayContainerThenNextCauseNoSuchElementException() {
-        SimpleContainer<Integer> arr = new ArrayContainer<>();
+    public void whenNoElementsLeftInListContainerThenNextCauseNoSuchElementException() {
+        SimpleContainer<Integer> arr = new ListContainer<>();
         arr.add(1);
         arr.add(2);
         arr.add(3);
@@ -91,7 +93,7 @@ public class ArrayContainerTest {
      */
     @Test
     public void whenTryToGetNotExistingElementThenGetArrayIndexOutOfBoundsException() {
-        SimpleContainer<Integer> arr = new ArrayContainer<>();
+        SimpleContainer<Integer> arr = new ListContainer<>();
         arr.add(1);
         arr.add(2);
         arr.add(3);
@@ -107,32 +109,11 @@ public class ArrayContainerTest {
     }
 
     /**
-     * Test container is dynamic. Default capacity is 8.
-     */
-    @Test
-    public void whenAddMoreElementsThanDefaultCapacityThenContainerIsDynamicallyGrown() {
-        SimpleContainer<String> arr = new ArrayContainer<>();
-        arr.add(new String("one"));
-        arr.add(new String("two"));
-        arr.add(new String("three"));
-        arr.add(new String("four"));
-        arr.add(new String("five"));
-        arr.add(new String("six"));
-        arr.add(new String("seven"));
-        arr.add(new String("eight"));
-        arr.add(new String("nine"));
-        arr.add(new String("ten"));
-
-        String result = arr.get(9);
-        assertThat(result, is("ten"));
-    }
-
-    /**
      * Test container size return real size.
      */
     @Test
     public void whenAddTenElementsThenSizeIsTen() {
-        SimpleContainer<String> arr = new ArrayContainer<>();
+        SimpleContainer<String> arr = new ListContainer<>();
         arr.add(new String("one"));
         arr.add(new String("two"));
         arr.add(new String("three"));

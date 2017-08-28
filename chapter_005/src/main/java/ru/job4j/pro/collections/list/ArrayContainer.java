@@ -95,7 +95,7 @@ public class ArrayContainer<E> implements SimpleContainer<E> {
     }
 
     /**
-     * Returns an iterator over elements of type {@code T}.
+     * Returns an iterator over elements of type {@code E}.
      *
      * @return an Iterator.
      */
