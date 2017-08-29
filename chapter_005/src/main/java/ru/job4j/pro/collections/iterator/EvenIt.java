@@ -28,11 +28,7 @@ public class EvenIt implements Iterator<Integer> {
      */
     public EvenIt(int[] array) {
         this.array = array;
-        if (array == null) {
-            this.current = -1;
-        } else {
-            this.current = this.findNearestEven(0);
-        }
+        this.current = 0;
     }
 
     /**
@@ -42,7 +38,17 @@ public class EvenIt implements Iterator<Integer> {
      */
     @Override
     public boolean hasNext() {
-        return this.current != -1;
+        boolean result = false;
+        if(this.array != null) {
+            while(this.array.length > this.current) {
+                if (this.array[this.current] % 2 == 0) {
+                    result = true;
+                    break;
+                }
+                this.current++;
+            }
+        }
+        return result;
     }
 
     /**
@@ -53,29 +59,10 @@ public class EvenIt implements Iterator<Integer> {
      */
     @Override
     public Integer next() throws NoSuchElementException {
-        if (this.current == -1) {
+        if (!this.hasNext()) {
             throw new NoSuchElementException("No even numbers left in array");
         }
-        int result = this.array[this.current];
-        this.current = this.findNearestEven(this.current + 1);
-        return result;
-    }
-
-    /**
-     * Find nearest even number index in the array, starting with current.
-     *
-     * @param index Start index to find next even.
-     * @return Index of nearest even number, -1 if not found.
-     */
-    private int findNearestEven(int index) {
-        int result = -1;
-        while (this.array.length > index) {
-            if (this.array[index] % 2 == 0) {
-                result = index;
-                break;
-            }
-            index++;
-        }
+        int result = this.array[this.current++];
         return result;
     }
 }
