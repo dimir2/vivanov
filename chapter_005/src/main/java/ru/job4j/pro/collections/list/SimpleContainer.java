@@ -30,4 +30,12 @@ public interface SimpleContainer<E> extends Iterable<E> {
      * @return Element.
      */
     E get(int index);
+
+    /**
+     * Remove the element by index.
+     *
+     * @param index Element index.
+     * @return Element.
+     */
+    E remove(int index);
 }

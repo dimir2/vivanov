@@ -46,6 +46,40 @@ public class ArrayContainerTest {
     }
 
     /**
+     * Test remove String element from container.
+     */
+    @Test
+    public void whenRemoveElementFromArrayContainerThenItIsRemoved() {
+        SimpleContainer<String> arr = new ArrayContainer<>();
+        arr.add(new String("one"));
+        arr.add(new String("two"));
+        arr.add(new String("three"));
+
+        arr.remove(1);
+        String result = arr.get(1);
+        assertThat(result, is("three"));
+    }
+
+    /**
+     * Test remove String element from container.
+     */
+    @Test
+    public void whenRemoveLastElementFromArrayContainerThenArrayIsEmpty() {
+        SimpleContainer<String> arr = new ArrayContainer<>();
+        arr.add(new String("one"));
+        arr.remove(0);
+
+        Exception result = null;
+        try {
+            arr.get(0);
+        } catch (Exception e) {
+            result = e;
+        }
+        assertThat(result, instanceOf(ArrayIndexOutOfBoundsException.class));
+    }
+
+
+    /**
      * Test that ArrayContainer is iterable with foreach.
      */
     @Test
@@ -131,19 +165,16 @@ public class ArrayContainerTest {
      * Test container size return real size.
      */
     @Test
-    public void whenAddTenElementsThenSizeIsTen() {
+    public void whenAddFiveElementsAndRemoveTwoThenSizeIsThree() {
         SimpleContainer<String> arr = new ArrayContainer<>();
         arr.add(new String("one"));
         arr.add(new String("two"));
         arr.add(new String("three"));
         arr.add(new String("four"));
         arr.add(new String("five"));
-        arr.add(new String("six"));
-        arr.add(new String("seven"));
-        arr.add(new String("eight"));
-        arr.add(new String("nine"));
-        arr.add(new String("ten"));
+        arr.remove(4);
+        arr.remove(3);
 
-        assertThat(arr.size(), is(10));
+        assertThat(arr.size(), is(3));
     }
 }

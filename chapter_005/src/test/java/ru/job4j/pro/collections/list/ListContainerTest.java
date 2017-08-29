@@ -46,6 +46,38 @@ public class ListContainerTest {
         assertThat(result, is("three"));
     }
 
+    /**
+     * Test remove String element from container.
+     */
+    @Test
+    public void whenRemoveElementFromListContainerThenItIsRemoved() {
+        SimpleContainer<String> list = new ListContainer<>();
+        list.add(new String("one"));
+        list.add(new String("two"));
+        list.add(new String("three"));
+
+        list.remove(1);
+        String result = list.get(1);
+        assertThat(result, is("three"));
+    }
+
+    /**
+     * Test remove String element from container.
+     */
+    @Test
+    public void whenRemoveLastElementFromListContainerThenListIsEmpty() {
+        SimpleContainer<String> list = new ListContainer<>();
+        list.add(new String("one"));
+        list.remove(0);
+
+        Exception result = null;
+        try {
+            list.get(0);
+        } catch (Exception e) {
+            result = e;
+        }
+        assertThat(result, instanceOf(IndexOutOfBoundsException.class));
+    }
 
     /**
      * Test that ListContainer is iterable with foreach.
@@ -92,7 +124,7 @@ public class ListContainerTest {
      * Test that get with wrong index cause ArrayIndexOutOfBoundsException.
      */
     @Test
-    public void whenTryToGetNotExistingElementThenGetArrayIndexOutOfBoundsException() {
+    public void whenTryToGetNotExistingElementThenGetIndexOutOfBoundsException() {
         SimpleContainer<Integer> arr = new ListContainer<>();
         arr.add(1);
         arr.add(2);
@@ -105,26 +137,20 @@ public class ListContainerTest {
             result = e;
         }
 
-        assertThat(result, instanceOf(ArrayIndexOutOfBoundsException.class));
+        assertThat(result, instanceOf(IndexOutOfBoundsException.class));
     }
 
     /**
      * Test container size return real size.
      */
     @Test
-    public void whenAddTenElementsThenSizeIsTen() {
+    public void whenAddThreeElementsThanRemoveOneThenSizeIsTwo() {
         SimpleContainer<String> arr = new ListContainer<>();
         arr.add(new String("one"));
         arr.add(new String("two"));
         arr.add(new String("three"));
-        arr.add(new String("four"));
-        arr.add(new String("five"));
-        arr.add(new String("six"));
-        arr.add(new String("seven"));
-        arr.add(new String("eight"));
-        arr.add(new String("nine"));
-        arr.add(new String("ten"));
+        arr.remove(2);
 
-        assertThat(arr.size(), is(10));
+        assertThat(arr.size(), is(2));
     }
 }

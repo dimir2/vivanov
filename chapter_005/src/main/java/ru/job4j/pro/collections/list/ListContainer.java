@@ -68,19 +68,61 @@ public class ListContainer<E> implements SimpleContainer<E> {
      *
      * @param index Element index.
      * @return Element.
+     * @throws IndexOutOfBoundsException out of bounds.
      */
     @Override
-    public E get(int index) {
+    public E get(int index) throws IndexOutOfBoundsException {
+        return (E) (this.getNode(index).element);
+    }
+
+    /**
+     * Remove the element by index.
+     *
+     * @param index Element index.
+     * @return Element.
+     * @throws IndexOutOfBoundsException out of bounds.
+     */
+    @Override
+    public E remove(int index) throws IndexOutOfBoundsException {
+        Node node = this.getNode(index);
+        if (node.next != null) {
+            node.next.prev = node.prev;
+        } else {
+            tail = node.prev;
+        }
+        if (node.prev != null) {
+            node.prev.next = node.next;
+        } else {
+            head = node.next;
+        }
+        this.size--;
+        return (E) node.element;
+    }
+
+    /**
+     * Get list node by index.
+     *
+     * @param index Node index.
+     * @return Node
+     * @throws IndexOutOfBoundsException out of bounds.
+     */
+    private Node getNode(int index) throws IndexOutOfBoundsException {
         if (index < 0 || index >= this.size()) {
-            throw new ArrayIndexOutOfBoundsException("Out of bound.");
+            throw new IndexOutOfBoundsException("Out of bound.");
         }
-        int position = 0;
         Node node = head;
-        while (position != index) {
-            node = node.next;
-            position++;
+        int position = 0;
+        int step = 1;
+        if (index > this.size() / 2) {
+            node = tail;
+            position = this.size() - 1;
+            step = -1;
         }
-        return (E) (node.element);
+        while (position != index) {
+            node = (step < 0) ? node.prev : node.next;
+            position += step;
+        }
+        return node;
     }
 
     /**
