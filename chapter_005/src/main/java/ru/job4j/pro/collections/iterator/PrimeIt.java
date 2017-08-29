@@ -28,11 +28,7 @@ public class PrimeIt implements Iterator<Integer> {
      */
     public PrimeIt(int[] array) {
         this.array = array;
-        if (array == null) {
-            this.current = -1;
-        } else {
-            this.current = this.findNearestPrime(0);
-        }
+        this.current = 0;
     }
 
     /**
@@ -42,7 +38,17 @@ public class PrimeIt implements Iterator<Integer> {
      */
     @Override
     public boolean hasNext() {
-        return this.current != -1;
+        boolean result = false;
+        if (array != null) {
+            while (this.array.length > this.current) {
+                if (this.isPrime(this.array[this.current])) {
+                    result = true;
+                    break;
+                }
+                this.current++;
+            }
+        }
+        return result;
     }
 
     /**
@@ -53,39 +59,33 @@ public class PrimeIt implements Iterator<Integer> {
      */
     @Override
     public Integer next() throws NoSuchElementException {
-        if (this.current == -1) {
+        if (!this.hasNext()) {
             throw new NoSuchElementException("No even numbers left in array");
         }
-        int result = this.array[this.current];
-        this.current = this.findNearestPrime(this.current + 1);
-        return result;
+        return this.array[this.current++];
     }
 
     /**
-     * Find nearest prime number index in the array, starting with given index.
+     * Tests if the given number is prime.
      *
-     * @param index Start index to find next prime.
-     * @return Index of nearest prime number, -1 if not found.
+     * @param value Value to test.
+     * @return True if it is prime, false otherwise.
      */
-    private int findNearestPrime(int index) {
-        int result = -1;
-        while (this.array.length > index) {
-            if (this.array[index] < 2) {
-                result = index;
-                break;
-            } else {
-                int divisors = 0;
-                for (int number = this.array[index]; number > 0; number--) {
-                    if (this.array[index] % number == 0) {
-                        divisors++;
-                    }
-                }
-                if (divisors == 2) {
-                    result = index;
-                    break;
+    private boolean isPrime(int value) {
+        boolean result = false;
+        if (value < 2) {
+            result = true;
+        } else {
+            int divisors = 0;
+            for (int number = value; number > 0; number--) {
+                if (value % number == 0) {
+                    divisors++;
                 }
             }
-            index++;
+            if (divisors == 2) {
+                result = true;
+
+            }
         }
         return result;
     }

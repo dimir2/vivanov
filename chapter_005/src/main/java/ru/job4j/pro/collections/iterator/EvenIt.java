@@ -39,8 +39,8 @@ public class EvenIt implements Iterator<Integer> {
     @Override
     public boolean hasNext() {
         boolean result = false;
-        if(this.array != null) {
-            while(this.array.length > this.current) {
+        if (this.array != null) {
+            while (this.array.length > this.current) {
                 if (this.array[this.current] % 2 == 0) {
                     result = true;
                     break;
@@ -62,7 +62,6 @@ public class EvenIt implements Iterator<Integer> {
         if (!this.hasNext()) {
             throw new NoSuchElementException("No even numbers left in array");
         }
-        int result = this.array[this.current++];
-        return result;
+        return this.array[this.current++];
     }
 }
