@@ -5,14 +5,14 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * SimpleArraySet class.
+ * Class SimpleSortedSet.
  *
  * @param <T> Any object.
  * @author Vladimir Ivanov
  * @version 0.1
  * @since 30.08.2017
  */
-public class SimpleArraySet<T> implements SimpleSet<T> {
+public class SimpleSortedSet<T extends Comparable<T>> implements SimpleSet<T> {
     /**
      * Default capacity.
      */
@@ -33,7 +33,7 @@ public class SimpleArraySet<T> implements SimpleSet<T> {
     /**
      * Constructs set with the default capacity.
      */
-    public SimpleArraySet() {
+    public SimpleSortedSet() {
         this(DEFAULT_CAPACITY);
     }
 
@@ -42,7 +42,7 @@ public class SimpleArraySet<T> implements SimpleSet<T> {
      *
      * @param capacity Initial capacity.
      */
-    public SimpleArraySet(int capacity) {
+    public SimpleSortedSet(int capacity) {
         this.capacity = capacity;
         this.storage = new Object[capacity];
         this.position = 0;
@@ -71,22 +71,19 @@ public class SimpleArraySet<T> implements SimpleSet<T> {
     }
 
     /**
-     * Adds element to the set.
+     * Adds element into the sorted set.
      *
      * @param element Element to add.
      */
     @Override
     public void add(T element) {
-        boolean exists = false;
-        for (int index = 0; index < this.position; index++) {
-            if (((T) this.storage[index]).equals(element)) {
-                exists = true;
-                break;
-            }
-        }
-        if (!exists) {
-            this.ensureCapacity();
-            this.storage[this.position++] = element;
+        this.ensureCapacity();
+        int index = Arrays.binarySearch(this.storage, 0, this.position, element);
+        if (index < 0) {
+            index = -1 - index;
+            System.arraycopy(this.storage, index, this.storage, index + 1, this.size() - index);
+            this.storage[index] = element;
+            this.position++;
         }
     }
 
@@ -99,32 +96,32 @@ public class SimpleArraySet<T> implements SimpleSet<T> {
     public Iterator<T> iterator() {
         return new Iterator<T>() {
             /**
-             * Current position.
+             * Next element index.
              */
-            private int current = 0;
+            private int pointer = 0;
 
             /**
              * hasNext implementation.
              *
-             * @return True if current exists, false otherwise.
+             * @return True, if next element exists.
              */
             @Override
             public boolean hasNext() {
-                return current < position;
+                return pointer < size();
             }
 
             /**
-             * Returns next element if exists.
+             * Returns next element.
              *
              * @return Next element.
-             * @throws NoSuchElementException no next element left.
+             * @throws NoSuchElementException no such element.
              */
             @Override
             public T next() throws NoSuchElementException {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
+                if (pointer == size()) {
+                    throw new NoSuchElementException("No element left");
                 }
-                return (T) storage[current++];
+                return (T) (storage[pointer++]);
             }
         };
     }
