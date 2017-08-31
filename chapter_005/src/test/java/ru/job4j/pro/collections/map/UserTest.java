@@ -3,6 +3,8 @@ package ru.job4j.pro.collections.map;
 import org.junit.Test;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
@@ -47,4 +49,21 @@ public class UserTest {
         assertFalse(john.equals(snow));
     }
 
+    /**
+     * Test user default equality via HashMap(not equal actually).
+     */
+    @Test
+    public void whenAddTwoUsersWithTheSameNameAndBirthdayToHashMapThenGetTwoElemensAdded() {
+        Calendar birthday = Calendar.getInstance();
+        birthday.set(1001, 12, 21);
+        User john = new User("John Snow", birthday);
+        User snow = new User("John Snow", birthday);
+
+        Map<User, String> map = new HashMap<>();
+        map.put(john, "John Snow");
+        map.put(snow, "John Snow");
+        System.out.println(map);
+
+        assertThat("Map has two values.", map.size(), is(2));
+    }
 }
