@@ -24,14 +24,24 @@ public class User {
     private int children;
 
     /**
-     * User hashCode implementtation.
+     * User equals implementation.
      *
-     * @return hashCode.
+     * @param other Object to test on equality.
+     * @return Result of equality test.
      */
     @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+    public boolean equals(Object other) {
+        boolean result = false;
+        if (this != other) {
+            result = true;
+        } else {
+            if (other != null && getClass() == other.getClass()) {
+                User user = (User) other;
+                if (name != null ? name.equals(user.name) : user.name == null) {
+                    result = birthday != null ? birthday.equals(user.birthday) : user.birthday == null;
+                }
+            }
+        }
         return result;
     }
 

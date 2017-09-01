@@ -1,5 +1,6 @@
 package ru.job4j.pro.collections.map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -9,6 +10,7 @@ import java.util.Map;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -38,6 +40,7 @@ public class UserTest {
      * Test user default equality (not equal actually).
      * Should be vise versa, so Ignore this case in future.
      */
+    @Ignore
     @Test
     public void whenTestTwoUsersWithTheSameNameAndBirthdayTheGetFalse() {
         Calendar birthday = Calendar.getInstance();
@@ -46,6 +49,19 @@ public class UserTest {
         User snow = new User("John Snow", (Calendar) birthday.clone());
 
         assertFalse(john.equals(snow));
+    }
+
+    /**
+     * Test user overridden equality.
+     */
+    @Test
+    public void whenTestTwoUsersWithTheSameNameAndBirthdayTheGetTrue() {
+        Calendar birthday = Calendar.getInstance();
+        birthday.set(1001, 12, 21);
+        User john = new User("John Snow", birthday);
+        User snow = new User("John Snow", (Calendar) birthday.clone());
+
+        assertTrue(john.equals(snow));
     }
 
     /**
