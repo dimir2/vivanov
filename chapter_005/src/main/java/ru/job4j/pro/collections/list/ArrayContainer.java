@@ -88,6 +88,7 @@ public class ArrayContainer<E> implements SimpleContainer<E> {
      * @throws ArrayIndexOutOfBoundsException out of bounds.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public E get(int index) throws ArrayIndexOutOfBoundsException {
         if (index < 0 || index >= this.pointer) {
             throw new ArrayIndexOutOfBoundsException("Out of bound.");
@@ -142,6 +143,7 @@ public class ArrayContainer<E> implements SimpleContainer<E> {
              * @throws NoSuchElementException no such element.
              */
             @Override
+            @SuppressWarnings("unchecked")
             public E next() throws NoSuchElementException {
                 if (next == size()) {
                     throw new NoSuchElementException("No element left");

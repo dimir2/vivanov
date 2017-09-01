@@ -52,6 +52,7 @@ public class SimpleArray<T> {
      * @return Element.
      * @throws ArrayIndexOutOfBoundsException When index is out of bound.
      */
+    @SuppressWarnings("unchecked")
     public T get(int index) {
         if (index < 0 || index >= this.array.length) {
             throw new ArrayIndexOutOfBoundsException(format("Index %d is out of bound [0,%d]", index, this.array.length));

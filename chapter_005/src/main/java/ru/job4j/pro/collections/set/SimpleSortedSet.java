@@ -117,6 +117,7 @@ public class SimpleSortedSet<T extends Comparable<T>> implements SimpleSet<T> {
              * @throws NoSuchElementException no such element.
              */
             @Override
+            @SuppressWarnings("unchecked")
             public T next() throws NoSuchElementException {
                 if (pointer == size()) {
                     throw new NoSuchElementException("No element left");

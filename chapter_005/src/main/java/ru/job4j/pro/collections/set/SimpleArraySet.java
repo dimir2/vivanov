@@ -76,6 +76,7 @@ public class SimpleArraySet<T> implements SimpleSet<T> {
      * @param element Element to add.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public void add(T element) {
         boolean exists = false;
         for (int index = 0; index < this.position; index++) {
@@ -120,6 +121,7 @@ public class SimpleArraySet<T> implements SimpleSet<T> {
              * @throws NoSuchElementException no next element left.
              */
             @Override
+            @SuppressWarnings("unchecked")
             public T next() throws NoSuchElementException {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
