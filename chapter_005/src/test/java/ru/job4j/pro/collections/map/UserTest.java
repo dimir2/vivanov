@@ -36,7 +36,6 @@ public class UserTest {
 
     /**
      * Test user default equality (not equal actually).
-     * <p>
      * Should be vise versa, so Ignore this case in future.
      */
     @Test
@@ -51,9 +50,10 @@ public class UserTest {
 
     /**
      * Test user default equality via HashMap(not equal actually).
+     * Should be vise versa, so Ignore this case in future.
      */
     @Test
-    public void whenAddTwoUsersWithTheSameNameAndBirthdayToHashMapThenGetTwoElemensAdded() {
+    public void whenAddTwoUsersWithTheSameNameAndBirthdayToHashMapThenGetTwoElementsAdded() {
         Calendar birthday = Calendar.getInstance();
         birthday.set(1001, 12, 21);
         User john = new User("John Snow", birthday);

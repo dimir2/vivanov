@@ -24,6 +24,18 @@ public class User {
     private int children;
 
     /**
+     * User hashCode implementtation.
+     *
+     * @return hashCode.
+     */
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        return result;
+    }
+
+    /**
      * Constructs user.
      *
      * @param name     Name.
