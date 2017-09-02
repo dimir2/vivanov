@@ -15,11 +15,11 @@ public class ListContainer<E> implements SimpleContainer<E> {
     /**
      * Head of the list.
      */
-    private Node head;
+    private Node<E> head;
     /**
      * tail of the list.
      */
-    private Node tail;
+    private Node<E> tail;
     /**
      * Size of container.
      */
@@ -51,7 +51,7 @@ public class ListContainer<E> implements SimpleContainer<E> {
      */
     @Override
     public void add(E element) {
-        Node node = new Node(element);
+        Node<E> node = new Node<>(element);
         if (this.head == null) {
             this.head = node;
             this.tail = node;
@@ -68,12 +68,11 @@ public class ListContainer<E> implements SimpleContainer<E> {
      *
      * @param index Element index.
      * @return Element.
-     * @throws IndexOutOfBoundsException out of bounds.
      */
     @Override
     @SuppressWarnings("unchecked")
-    public E get(int index) throws IndexOutOfBoundsException {
-        return (E) (this.getNode(index).element);
+    public E get(int index) {
+        return this.getNode(index).element;
     }
 
     /**
@@ -81,12 +80,11 @@ public class ListContainer<E> implements SimpleContainer<E> {
      *
      * @param index Element index.
      * @return Element.
-     * @throws IndexOutOfBoundsException out of bounds.
      */
     @Override
     @SuppressWarnings("unchecked")
-    public E remove(int index) throws IndexOutOfBoundsException {
-        Node node = this.getNode(index);
+    public E remove(int index) {
+        Node<E> node = this.getNode(index);
         if (node.next != null) {
             node.next.prev = node.prev;
         } else {
@@ -98,7 +96,7 @@ public class ListContainer<E> implements SimpleContainer<E> {
             head = node.next;
         }
         this.size--;
-        return (E) node.element;
+        return node.element;
     }
 
     /**
@@ -106,13 +104,12 @@ public class ListContainer<E> implements SimpleContainer<E> {
      *
      * @param index Node index.
      * @return Node
-     * @throws IndexOutOfBoundsException out of bounds.
      */
-    private Node getNode(int index) throws IndexOutOfBoundsException {
+    private Node<E> getNode(int index) {
         if (index < 0 || index >= this.size()) {
             throw new IndexOutOfBoundsException("Out of bound.");
         }
-        Node node = head;
+        Node<E> node = head;
         int position = 0;
         int step = 1;
         if (index > this.size() / 2) {
@@ -138,7 +135,7 @@ public class ListContainer<E> implements SimpleContainer<E> {
             /**
              * Pointer to the current node.
              */
-            private Node pointer = head;
+            private Node<E> pointer = head;
 
             /**
              * hasNext implementation.
@@ -154,17 +151,16 @@ public class ListContainer<E> implements SimpleContainer<E> {
              * Returns next element.
              *
              * @return Next element.
-             * @throws NoSuchElementException
              */
             @Override
             @SuppressWarnings("unchecked")
-            public E next() throws NoSuchElementException {
+            public E next() {
                 if (pointer == null) {
-                    throw new NoSuchElementException("No element left");
+                    throw new NoSuchElementException();
                 }
-                Object element = pointer.element;
+                E element = pointer.element;
                 pointer = pointer.next;
-                return (E) element;
+                return element;
             }
         };
     }
@@ -172,33 +168,34 @@ public class ListContainer<E> implements SimpleContainer<E> {
     /**
      * Node class.
      *
+     * @param <E> Any object.
      * @author Vladimir Ivanov
      * @version 0.1
      * @since 28.08.2017
      */
-    private static class Node {
+    private static class Node<E> {
         /**
          * Previous node in the list.
          */
         @SuppressWarnings("checkstyle:visibilitymodifier")
-        Node prev;
+        Node<E> prev;
         /**
          * Nex node in the list.
          */
         @SuppressWarnings("checkstyle:visibilitymodifier")
-        Node next;
+        Node<E> next;
         /**
          * Node element.
          */
         @SuppressWarnings("checkstyle:visibilitymodifier")
-        Object element;
+        E element;
 
         /**
          * Construct node.
          *
          * @param element Element to store.
          */
-        Node(Object element) {
+        Node(E element) {
             this.prev = null;
             this.next = null;
             this.element = element;

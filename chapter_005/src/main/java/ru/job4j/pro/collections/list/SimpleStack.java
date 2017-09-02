@@ -20,16 +20,14 @@ public class SimpleStack<T> {
      * Stack poll removes and return element added most recently.
      *
      * @return Element added most recently.
-     * @throws EmptyStackException stack is empty.
      */
-    public T poll() throws EmptyStackException {
+    public T poll() {
         T element = null;
         try {
             element = list.remove(list.size() - 1);
-        } catch (Exception e) {
+        } catch (IndexOutOfBoundsException ie) {
             throw new EmptyStackException();
         }
-
         return element;
     }
 
