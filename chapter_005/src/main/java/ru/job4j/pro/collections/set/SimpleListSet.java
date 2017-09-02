@@ -107,10 +107,9 @@ public class SimpleListSet<T> implements SimpleSet<T> {
              * Returns next element.
              *
              * @return Next element.
-             * @throws NoSuchElementException
              */
             @Override
-            public T next() throws NoSuchElementException {
+            public T next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException("No element left");
                 }

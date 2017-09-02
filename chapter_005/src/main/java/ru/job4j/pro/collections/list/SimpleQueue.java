@@ -18,13 +18,12 @@ public class SimpleQueue<T> {
      * Stack poll removes and return element added most recently.
      *
      * @return Element added most recently.
-     * @throws EmptyQueueException Queue is empty
      */
-    public T poll() throws EmptyQueueException {
+    public T poll() {
         T element = null;
         try {
             element = list.remove(0);
-        } catch (Exception e) {
+        } catch (IndexOutOfBoundsException ie) {
             throw new EmptyQueueException();
         }
         return element;

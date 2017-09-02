@@ -118,11 +118,10 @@ public class SimpleArraySet<T> implements SimpleSet<T> {
              * Returns next element if exists.
              *
              * @return Next element.
-             * @throws NoSuchElementException no next element left.
              */
             @Override
             @SuppressWarnings("unchecked")
-            public T next() throws NoSuchElementException {
+            public T next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }

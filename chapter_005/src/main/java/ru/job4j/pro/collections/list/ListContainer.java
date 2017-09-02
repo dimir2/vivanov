@@ -68,11 +68,10 @@ public class ListContainer<E> implements SimpleContainer<E> {
      *
      * @param index Element index.
      * @return Element.
-     * @throws IndexOutOfBoundsException out of bounds.
      */
     @Override
     @SuppressWarnings("unchecked")
-    public E get(int index) throws IndexOutOfBoundsException {
+    public E get(int index) {
         return (E) (this.getNode(index).element);
     }
 
@@ -81,11 +80,10 @@ public class ListContainer<E> implements SimpleContainer<E> {
      *
      * @param index Element index.
      * @return Element.
-     * @throws IndexOutOfBoundsException out of bounds.
      */
     @Override
     @SuppressWarnings("unchecked")
-    public E remove(int index) throws IndexOutOfBoundsException {
+    public E remove(int index) {
         Node node = this.getNode(index);
         if (node.next != null) {
             node.next.prev = node.prev;
@@ -106,9 +104,8 @@ public class ListContainer<E> implements SimpleContainer<E> {
      *
      * @param index Node index.
      * @return Node
-     * @throws IndexOutOfBoundsException out of bounds.
      */
-    private Node getNode(int index) throws IndexOutOfBoundsException {
+    private Node getNode(int index) {
         if (index < 0 || index >= this.size()) {
             throw new IndexOutOfBoundsException("Out of bound.");
         }
@@ -154,11 +151,10 @@ public class ListContainer<E> implements SimpleContainer<E> {
              * Returns next element.
              *
              * @return Next element.
-             * @throws NoSuchElementException
              */
             @Override
             @SuppressWarnings("unchecked")
-            public E next() throws NoSuchElementException {
+            public E next() {
                 if (pointer == null) {
                     throw new NoSuchElementException("No element left");
                 }

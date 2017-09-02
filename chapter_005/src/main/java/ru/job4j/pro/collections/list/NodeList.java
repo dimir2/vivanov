@@ -52,10 +52,9 @@ public class NodeList<T> {
              * Returns next element.
              *
              * @return Next element.
-             * @throws NoSuchElementException
              */
             @Override
-            public Node<T> next() throws NoSuchElementException {
+            public Node<T> next() {
                 if (pointer == null) {
                     throw new NoSuchElementException();
                 }
@@ -92,10 +91,9 @@ public class NodeList<T> {
              * Return next-next element.
              *
              * @return Next-next element.
-             * @throws NoSuchElementException
              */
             @Override
-            public Node<T> next() throws NoSuchElementException {
+            public Node<T> next() {
                 if (!it.hasNext()) {
                     throw new NoSuchElementException();
                 }

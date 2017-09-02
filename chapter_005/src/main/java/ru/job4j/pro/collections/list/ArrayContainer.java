@@ -85,11 +85,10 @@ public class ArrayContainer<E> implements SimpleContainer<E> {
      *
      * @param index Element index.
      * @return Element.
-     * @throws ArrayIndexOutOfBoundsException out of bounds.
      */
     @Override
     @SuppressWarnings("unchecked")
-    public E get(int index) throws ArrayIndexOutOfBoundsException {
+    public E get(int index) {
         if (index < 0 || index >= this.pointer) {
             throw new ArrayIndexOutOfBoundsException("Out of bound.");
         }
@@ -101,10 +100,9 @@ public class ArrayContainer<E> implements SimpleContainer<E> {
      *
      * @param index Element index.
      * @return Element.
-     * @throws ArrayIndexOutOfBoundsException out of bounds.
      */
     @Override
-    public E remove(int index) throws ArrayIndexOutOfBoundsException {
+    public E remove(int index) {
         E result = this.get(index);
         if (index < this.size() - 1) {
             System.arraycopy(this.container, index + 1, this.container, index, this.size() - (index + 1));
@@ -140,11 +138,10 @@ public class ArrayContainer<E> implements SimpleContainer<E> {
              * Returns next element.
              *
              * @return Next element.
-             * @throws NoSuchElementException no such element.
              */
             @Override
             @SuppressWarnings("unchecked")
-            public E next() throws NoSuchElementException {
+            public E next() {
                 if (next == size()) {
                     throw new NoSuchElementException("No element left");
                 }
