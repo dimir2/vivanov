@@ -1,8 +1,8 @@
 package ru.job4j.pro.collections.set;
 
-import java.util.Arrays;
+import ru.job4j.pro.collections.list.ArrayContainer;
+
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 /**
  * SimpleArraySet class.
@@ -14,27 +14,15 @@ import java.util.NoSuchElementException;
  */
 public class SimpleArraySet<T> implements SimpleSet<T> {
     /**
-     * Default capacity.
-     */
-    private static final int DEFAULT_CAPACITY = 8;
-    /**
      * Internal storage.
      */
-    private Object[] storage;
-    /**
-     * Current position in storage array.
-     */
-    private int position;
-    /**
-     * Current capacity.
-     */
-    private int capacity;
+    private ArrayContainer<T> storage;
 
     /**
      * Constructs set with the default capacity.
      */
     public SimpleArraySet() {
-        this(DEFAULT_CAPACITY);
+        this.storage = new ArrayContainer<>();
     }
 
     /**
@@ -43,21 +31,7 @@ public class SimpleArraySet<T> implements SimpleSet<T> {
      * @param capacity Initial capacity.
      */
     public SimpleArraySet(int capacity) {
-        this.capacity = capacity;
-        this.storage = new Object[capacity];
-        this.position = 0;
-    }
-
-    /**
-     * Ensure capacity. Enlarge the array if needed.
-     */
-    private void ensureCapacity() {
-        if (this.position == this.capacity) {
-            int newCapacity = this.capacity + (this.capacity >> 1);
-            Object[] arr = Arrays.copyOf(this.storage, newCapacity);
-            this.capacity = newCapacity;
-            this.storage = arr;
-        }
+        this.storage = new ArrayContainer<>(capacity);
     }
 
     /**
@@ -67,7 +41,7 @@ public class SimpleArraySet<T> implements SimpleSet<T> {
      */
     @Override
     public int size() {
-        return this.position;
+        return this.storage.size();
     }
 
     /**
@@ -79,15 +53,14 @@ public class SimpleArraySet<T> implements SimpleSet<T> {
     @SuppressWarnings("unchecked")
     public void add(T element) {
         boolean exists = false;
-        for (int index = 0; index < this.position; index++) {
-            if (((T) this.storage[index]).equals(element)) {
+        for (T elem : this.storage) {
+            if (elem.equals(element)) {
                 exists = true;
                 break;
             }
         }
         if (!exists) {
-            this.ensureCapacity();
-            this.storage[this.position++] = element;
+            this.storage.add(element);
         }
     }
 
@@ -98,35 +71,6 @@ public class SimpleArraySet<T> implements SimpleSet<T> {
      */
     @Override
     public Iterator<T> iterator() {
-        return new Iterator<T>() {
-            /**
-             * Current position.
-             */
-            private int current = 0;
-
-            /**
-             * hasNext implementation.
-             *
-             * @return True if current exists, false otherwise.
-             */
-            @Override
-            public boolean hasNext() {
-                return current < position;
-            }
-
-            /**
-             * Returns next element if exists.
-             *
-             * @return Next element.
-             */
-            @Override
-            @SuppressWarnings("unchecked")
-            public T next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
-                }
-                return (T) storage[current++];
-            }
-        };
+        return this.storage.iterator();
     }
 }
