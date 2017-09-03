@@ -44,7 +44,7 @@ public class ArrayContainer<E> implements SimpleContainer<E> {
      */
     public ArrayContainer(int capacity) {
         this.capacity = (capacity > DEFAULT_CAPACITY) ? capacity : DEFAULT_CAPACITY;
-        this.container = new Object[capacity];
+        this.container = new Object[this.capacity];
     }
 
     /**
