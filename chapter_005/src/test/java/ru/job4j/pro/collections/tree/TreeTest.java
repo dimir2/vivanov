@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Class TreeTest.
@@ -57,5 +59,39 @@ public class TreeTest {
         expected.add(9);
 
         assertThat(result, is(expected));
+    }
+
+    /**
+     * Test if tree is binary when it is binary.
+     */
+    @Test
+    public void whenTreeIsBynaryThenIsBinaryReturnsTrue() {
+        Tree<Integer> tree = new Tree<>();
+        tree.add(5, 8);
+        tree.add(8, 7);
+        tree.add(8, 13);
+        tree.add(5, 1);
+        tree.add(1, 2);
+        tree.add(13, 42);
+
+        assertTrue(tree.isBinary());
+    }
+
+    /**
+     * Test if tree is binary when it is not binary.
+     */
+    @Test
+    public void whenTreeIsNotBynaryThenIsBinaryReturnsFalse() {
+        Tree<Integer> tree = new Tree<>();
+        tree.add(5, 8);
+        tree.add(8, 7);
+        tree.add(8, 13);
+        tree.add(5, 1);
+        tree.add(1, 2);
+        tree.add(1, 4);
+        tree.add(1, 5);
+        tree.add(13, 42);
+
+        assertFalse(tree.isBinary());
     }
 }

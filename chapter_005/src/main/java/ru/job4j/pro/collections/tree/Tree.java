@@ -41,6 +41,15 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         return result;
     }
 
+    /**
+     * Checks if the tree is a binary tree.
+     *
+     * @return Result.
+     */
+    public boolean isBinary() {
+        return this.traverse(root);
+    }
+
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
@@ -114,6 +123,29 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
                 for (Node<E> node : root.children) {
                     result = traverse(node, value);
                     if (result != null) {
+                        break;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Traverse the tree, checking if tree is binary one.
+     *
+     * @param root Root node.
+     * @return True if binary tree.
+     */
+    private boolean traverse(Node<E> root) {
+        boolean result = true;
+        if (root != null) {
+            if (root.children.size() > 2) {
+                result = false;
+            } else {
+                for (Node<E> node : root.children) {
+                    result = traverse(node);
+                    if (!result) {
                         break;
                     }
                 }
