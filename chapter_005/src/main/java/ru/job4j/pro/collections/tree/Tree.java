@@ -31,12 +31,15 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         boolean result = false;
         Node<E> par = null;
         if (this.root == null) {
-            this.root = new Node(parent);
+            this.root = new Node<>(parent);
         }
         par = this.traverse(this.root, new Node<>(parent));
         if (par != null) {
-            par.children.add(new Node(child));
-            result = true;
+            Node<E> ch = new Node<>(child);
+            if (this.traverse(this.root, ch) == null) {
+                par.children.add(ch);
+                result = true;
+            }
         }
         return result;
     }

@@ -31,7 +31,7 @@ public class TreeTest {
             result.add(elem);
         }
 
-        List expected = new ArrayList();
+        List<Integer> expected = new ArrayList<>();
         expected.add(5);
         expected.add(8);
 
@@ -52,7 +52,7 @@ public class TreeTest {
             result.add(elem);
         }
 
-        List expected = new ArrayList();
+        List<Integer> expected = new ArrayList<>();
         expected.add(5);
         expected.add(8);
         expected.add(13);
@@ -89,7 +89,7 @@ public class TreeTest {
         tree.add(5, 1);
         tree.add(1, 2);
         tree.add(1, 4);
-        tree.add(1, 5);
+        tree.add(1, 12);
         tree.add(13, 42);
 
         assertFalse(tree.isBinary());
