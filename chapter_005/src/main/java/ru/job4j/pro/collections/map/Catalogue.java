@@ -42,6 +42,7 @@ public class Catalogue<K, V> {
      *
      * @param capacity Initial capacity.
      */
+    @SuppressWarnings("unchecked")
     public Catalogue(int capacity) {
         this.array = new Entry[(capacity > DEFAULT_CAPACITY) ? capacity : DEFAULT_CAPACITY];
     }
