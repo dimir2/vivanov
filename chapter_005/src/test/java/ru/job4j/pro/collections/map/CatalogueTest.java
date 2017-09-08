@@ -57,6 +57,7 @@ public class CatalogueTest {
     /**
      * Test iteration on Catalogue.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void whenIterateOnCatalogThenItHasAllEntries() {
         Catalogue<Integer, String> cat = new Catalogue<>();
@@ -66,9 +67,10 @@ public class CatalogueTest {
 
         Iterator<Catalogue.Entry<Integer, String>> it = cat.iterator();
 
-        Catalogue.Entry<Integer, String>[] result = new Catalogue.Entry[]{it.next(), it.next(), it.next()};
+        Catalogue.Entry<Integer, String>[] result = (Catalogue.Entry<Integer, String>[]) new Catalogue.Entry<?, ?>[]{
+                it.next(), it.next(), it.next()};
 
-        Catalogue.Entry<Integer, String>[] expected = new Catalogue.Entry[]{
+        Catalogue.Entry<Integer, String>[] expected = (Catalogue.Entry<Integer, String>[]) new Catalogue.Entry<?, ?>[]{
                 new Catalogue.Entry(1, 1, "first"),
                 new Catalogue.Entry(2, 2, "second"),
                 new Catalogue.Entry(3, 3, "third")};
