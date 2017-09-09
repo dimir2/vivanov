@@ -1,26 +1,26 @@
 package ru.job4j.pro.collections.orderbook;
 
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import ru.job4j.pro.collections.orderbook.loader.ManualLoader;
+import ru.job4j.pro.collections.orderbook.loader.StAXLoader;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import java.time.Duration;
+import java.time.Instant;
 
 import static java.lang.String.format;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static ru.job4j.testutils.UnZip.unzip;
 
 /**
  * Class StockExchangeTest.
@@ -34,38 +34,16 @@ public class StockExchangeTest {
      * Temporary dir for these tests. Cleared after test.
      */
     @Rule
-    public TemporaryFolder tmp = new TemporaryFolder();
+    public TemporaryFolder tmpDir = new TemporaryFolder();
 
     /**
-     * Unzip to tmp directory.
-     *
-     * @param zip Zipped file.
+     * Unpack all resources into the tmpDir folder.
      */
-    private void unzip(String zip) {
-        final int BUFFER = 2048;
-        try {
-            BufferedOutputStream dest = null;
-            BufferedInputStream is = null;
-            ZipEntry entry;
-            ZipFile zipfile = new ZipFile(zip);
-            Enumeration e = zipfile.entries();
-            while (e.hasMoreElements()) {
-                entry = (ZipEntry) e.nextElement();
-                is = new BufferedInputStream(zipfile.getInputStream(entry));
-                int count;
-                byte[] data = new byte[BUFFER];
-                FileOutputStream fos = new FileOutputStream(Paths.get(tmp.getRoot().getPath(), entry.getName()).toFile());
-                dest = new BufferedOutputStream(fos, BUFFER);
-                while ((count = is.read(data, 0, BUFFER)) != -1) {
-                    dest.write(data, 0, count);
-                }
-                dest.flush();
-                dest.close();
-                is.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @Before
+    public void unpackAllResourcesBeforeTests() {
+        ClassLoader classLoader = getClass().getClassLoader();
+        unzip(classLoader.getResource("orders.xml.zipped").getFile(), tmpDir);
+        unzip(classLoader.getResource("orders-10000.xml.zipped").getFile(), tmpDir);
     }
 
     /**
@@ -76,7 +54,7 @@ public class StockExchangeTest {
         ClassLoader classLoader = getClass().getClassLoader();
         String file = classLoader.getResource("orders-012.xml").getFile();
 
-        StockExchange exchange = new StockExchange();
+        StockExchange exchange = new StockExchange(StAXLoader.getInstance());
         exchange.loadOrders(file);
 
         String result = exchange.toString();
@@ -101,7 +79,7 @@ public class StockExchangeTest {
     /**
      * Test simple order book loading with Add/Delete actions and several books.
      *
-     * @throws IOException File read exception.
+     * @throws IOException        File read exception.
      * @throws URISyntaxException URI conversion exception.
      */
     @Test
@@ -111,7 +89,7 @@ public class StockExchangeTest {
         URL out = classLoader.getResource("orders-100.out");
         String expected = new String(Files.readAllBytes(Paths.get(out.toURI())), StandardCharsets.UTF_8);
 
-        StockExchange exchange = new StockExchange();
+        StockExchange exchange = new StockExchange(StAXLoader.getInstance());
         exchange.loadOrders(file);
         String result = exchange.toString();
 
@@ -121,17 +99,18 @@ public class StockExchangeTest {
     /**
      * Test simple order book loading with Add/Delete actions and several books.
      *
-     * @throws IOException File read exception.
+     * @throws IOException        File read exception.
      * @throws URISyntaxException URI conversion exception.
      */
     @Test
     public void whenLoadTenThousandOrdersThenTheyAreLoaded() throws IOException, URISyntaxException {
         ClassLoader classLoader = getClass().getClassLoader();
-        String file = classLoader.getResource("orders-10000.xml").getFile();
+        String file = Paths.get(tmpDir.getRoot().getPath(), "orders-10000.xml").toString();
+
         URL out = classLoader.getResource("orders-10000.out");
         String expected = new String(Files.readAllBytes(Paths.get(out.toURI())), StandardCharsets.UTF_8);
 
-        StockExchange exchange = new StockExchange();
+        StockExchange exchange = new StockExchange(StAXLoader.getInstance());
         exchange.loadOrders(file);
         String result = exchange.toString();
 
@@ -139,20 +118,20 @@ public class StockExchangeTest {
     }
 
     /**
-     * Test original order book. The original file is too big to keep it under GitHub.
+     * Test original order book..
      *
-     * @throws IOException File read exception.
+     * @throws IOException        File read exception.
      * @throws URISyntaxException URI conversion exception.
      */
-    @Ignore
     @Test
     public void whenLoadOriginalOrderBookThenItIsLoaded() throws IOException, URISyntaxException {
         ClassLoader classLoader = getClass().getClassLoader();
-        String file = classLoader.getResource("orders.xml").getFile();
+        String file = Paths.get(tmpDir.getRoot().getPath(), "orders.xml").toString();
+
         URL out = classLoader.getResource("orders.out");
         String expected = new String(Files.readAllBytes(Paths.get(out.toURI())), StandardCharsets.UTF_8);
 
-        StockExchange exchange = new StockExchange();
+        StockExchange exchange = new StockExchange(StAXLoader.getInstance());
         exchange.loadOrders(file);
         String result = exchange.toString();
 
@@ -160,25 +139,50 @@ public class StockExchangeTest {
     }
 
     /**
-     * Test original order book. It needs to be unzipped.
+     * Test original order book load time with StAXLoader.
      *
-     * @throws IOException File read exception.
+     * @throws IOException        File read exception.
      * @throws URISyntaxException URI conversion exception.
      */
     @Test
-    public void whenLoadOriginalOrderBookThenItIsLoadedFromZip() throws IOException, URISyntaxException {
+    public void whenLoadOriginalOrderBookWithStAXLoaderThenItTakesMoreThanSixSeconds() throws IOException, URISyntaxException {
         ClassLoader classLoader = getClass().getClassLoader();
-        unzip(classLoader.getResource("orders.test").getFile());
+        String file = Paths.get(tmpDir.getRoot().getPath(), "orders.xml").toString();
 
-        String file = Paths.get(tmp.getRoot().getPath(), "orders.xml").toString();
+        long expected = 6000L;
+        Instant start = Instant.now();
 
-        URL out = classLoader.getResource("orders.out");
-        String expected = new String(Files.readAllBytes(Paths.get(out.toURI())), StandardCharsets.UTF_8);
-
-        StockExchange exchange = new StockExchange();
+        StockExchange exchange = new StockExchange(StAXLoader.getInstance());
         exchange.loadOrders(file);
-        String result = exchange.toString();
+        exchange.toString();
 
-        assertThat(result, is(expected));
+        long result = Duration.between(start, Instant.now()).toMillis();
+        System.out.println(format("%20s: Duration is %d millis", "StAXLoader", result));
+
+        assertTrue(result > expected);
+    }
+
+    /**
+     * Test original order book load time with ManualLoader.
+     *
+     * @throws IOException        File read exception.
+     * @throws URISyntaxException URI conversion exception.
+     */
+    @Test
+    public void whenLoadOriginalOrderBookWithManualLoaderThenItTakesLessThanSixSeconds() throws IOException, URISyntaxException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String file = Paths.get(tmpDir.getRoot().getPath(), "orders.xml").toString();
+
+        long expected = 6000L;
+        Instant start = Instant.now();
+
+        StockExchange exchange = new StockExchange(ManualLoader.getInstance());
+        exchange.loadOrders(file);
+        exchange.toString();
+
+        long result = Duration.between(start, Instant.now()).toMillis();
+        System.out.println(format("%20s: Duration is %d millis", "ManualLoader", result));
+
+        assertTrue(result < expected);
     }
 }

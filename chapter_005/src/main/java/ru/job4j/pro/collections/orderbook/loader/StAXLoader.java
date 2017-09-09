@@ -8,26 +8,26 @@ import java.io.FileInputStream;
 import java.util.TreeSet;
 
 /**
- * Class OrderBookLoader.
+ * Class StAXLoader.
  *
  * @author Vladimir Ivanov
- * @version 0.1
+ * @version 0.2
  * @since 06.09.2017
  */
-public class OrderBookLoader {
+public class StAXLoader implements Loader {
     /**
-     * Constructs OrderBookLoader.
+     * Constructs StAXLoader.
      */
-    public OrderBookLoader() {
+    private StAXLoader() {
     }
 
     /**
      * The other way to create an instance.
      *
-     * @return OrderBookLoader object.
+     * @return StAXLoader object.
      */
-    public static OrderBookLoader getInstance() {
-        return new OrderBookLoader();
+    public static StAXLoader getInstance() {
+        return new StAXLoader();
     }
 
     /**

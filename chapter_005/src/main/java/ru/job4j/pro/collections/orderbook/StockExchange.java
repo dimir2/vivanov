@@ -1,7 +1,7 @@
 package ru.job4j.pro.collections.orderbook;
 
+import ru.job4j.pro.collections.orderbook.loader.Loader;
 import ru.job4j.pro.collections.orderbook.loader.Order;
-import ru.job4j.pro.collections.orderbook.loader.OrderBookLoader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,11 +23,18 @@ public class StockExchange {
      * Order books.
      */
     private Map<String, OrderBook> books;
+    /**
+     * Loader.
+     */
+    private Loader loader;
 
     /**
      * Constructs StockExchange object.
+     *
+     * @param loader Loader implementation.
      */
-    public StockExchange() {
+    public StockExchange(Loader loader) {
+        this.loader = loader;
         this.books = new HashMap<>();
     }
 
@@ -37,7 +44,7 @@ public class StockExchange {
      * @param file XML file with orders.
      */
     public void loadOrders(String file) {
-        this.orders = OrderBookLoader.getInstance().load(file);
+        this.orders = loader.load(file);
 
         for (Order order : this.orders) {
             String book = order.getBook();

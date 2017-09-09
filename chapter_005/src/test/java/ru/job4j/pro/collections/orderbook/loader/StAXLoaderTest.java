@@ -1,20 +1,44 @@
 package ru.job4j.pro.collections.orderbook.loader;
 
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
+import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.TreeSet;
 
+import static java.lang.String.format;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static ru.job4j.testutils.UnZip.unzip;
 
 /**
- * Class OrderBookLoaderTest.
+ * Class StAXLoaderTest.
  *
  * @author Vladimir Ivanov
  * @version 0.1
  * @since 07.09.2017
  */
-public class OrderBookLoaderTest {
+public class StAXLoaderTest {
+    /**
+     * Temporary dir for these tests. Cleared after test.
+     */
+    @Rule
+    public TemporaryFolder tmpDir = new TemporaryFolder();
+
+    /**
+     * Unpack all resources into the tmpDir folder.
+     */
+    @Before
+    public void unpackAllResourcesBeforeTests() {
+        ClassLoader classLoader = getClass().getClassLoader();
+        unzip(classLoader.getResource("orders.xml.zipped").getFile(), tmpDir);
+    }
+
     /**
      * Test simple order book loading with AddOrder actions and one book.
      */
@@ -23,7 +47,7 @@ public class OrderBookLoaderTest {
         ClassLoader classLoader = getClass().getClassLoader();
         String file = classLoader.getResource("orders-004.xml").getFile();
 
-        OrderBookLoader loader = OrderBookLoader.getInstance();
+        Loader loader = StAXLoader.getInstance();
         TreeSet<Order> result = loader.load(file);
 
         TreeSet<Order> expected = new TreeSet<>();
@@ -43,7 +67,7 @@ public class OrderBookLoaderTest {
         ClassLoader classLoader = getClass().getClassLoader();
         String file = classLoader.getResource("orders-012.xml").getFile();
 
-        OrderBookLoader loader = OrderBookLoader.getInstance();
+        Loader loader = StAXLoader.getInstance();
         TreeSet<Order> result = loader.load(file);
 
         TreeSet<Order> expected = new TreeSet<>();
@@ -71,7 +95,7 @@ public class OrderBookLoaderTest {
         ClassLoader classLoader = getClass().getClassLoader();
         String file = classLoader.getResource("orders-012-del.xml").getFile();
 
-        OrderBookLoader loader = OrderBookLoader.getInstance();
+        Loader loader = StAXLoader.getInstance();
         TreeSet<Order> result = loader.load(file);
 
         TreeSet<Order> expected = new TreeSet<>();
@@ -87,4 +111,23 @@ public class OrderBookLoaderTest {
         assertThat(result, is(expected));
     }
 
+    /**
+     * Test the whole order book loading time.
+     */
+    @Test
+    public void whenLoadWholeOrderBookThenItTakesMoreThanFiveSeconds() {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String file = Paths.get(tmpDir.getRoot().getPath(), "orders.xml").toString();
+
+        long expected = 5000L;
+        Instant start = Instant.now();
+
+        Loader loader = StAXLoader.getInstance();
+        loader.load(file);
+
+        long result = Duration.between(start, Instant.now()).toMillis();
+        System.out.println(format("%20s: Duration is %d millis", "StAXLoader", result));
+
+        assertTrue(result > expected);
+    }
 }
