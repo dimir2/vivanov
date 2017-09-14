@@ -6,4 +6,4 @@
  * @since 13.09.2017
  */
 
-package ru.job4j.pro.collections.generic.orderbook.tdd;
+package ru.job4j.pro.collections.orderbook.tdd;

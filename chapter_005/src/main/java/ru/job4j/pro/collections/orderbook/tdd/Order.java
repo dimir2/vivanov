@@ -1,4 +1,4 @@
-package ru.job4j.pro.collections.generic.orderbook.tdd;
+package ru.job4j.pro.collections.orderbook.tdd;
 
 /**
  * Class Order.
@@ -102,4 +102,17 @@ public class Order implements Comparable<Order> {
         return id - other.id;
     }
 
+    /**
+     * Enum Op.
+     */
+    public static enum Op {
+        /**
+         * Buy op.
+         */
+        BUY,
+        /**
+         * Sell op.
+         */
+        SELL
+    }
 }

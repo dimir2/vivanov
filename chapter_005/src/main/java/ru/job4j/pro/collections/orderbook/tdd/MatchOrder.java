@@ -1,13 +1,13 @@
-package ru.job4j.pro.collections.generic.orderbook.tdd;
+package ru.job4j.pro.collections.orderbook.tdd;
 
 /**
- * Class MatchedOrder.
+ * Class MatchOrder.
  *
  * @author Vladimir Ivanov
  * @version 0.1
  * @since 13.09.2017
  */
-public class MatchedOrder implements Comparable<MatchedOrder> {
+public class MatchOrder implements Comparable<MatchOrder> {
     /**
      * Matched order price.
      */
@@ -23,7 +23,7 @@ public class MatchedOrder implements Comparable<MatchedOrder> {
      * @param price Price.
      * @param value Value.
      */
-    public MatchedOrder(float price, int value) {
+    public MatchOrder(float price, int value) {
         this.price = price;
         this.value = value;
     }
@@ -35,7 +35,7 @@ public class MatchedOrder implements Comparable<MatchedOrder> {
             result = true;
         } else {
             if (obj != null && getClass() == obj.getClass()) {
-                MatchedOrder that = (MatchedOrder) obj;
+                MatchOrder that = (MatchOrder) obj;
                 result = this.compareTo(that) == 0;
             }
         }
@@ -47,11 +47,11 @@ public class MatchedOrder implements Comparable<MatchedOrder> {
         return (price != +0.0f ? Float.floatToIntBits(price) : 0);
     }
 
-    public float getPrice() {
+    public float price() {
         return price;
     }
 
-    public int getValue() {
+    public int value() {
         return value;
     }
 
@@ -60,7 +60,7 @@ public class MatchedOrder implements Comparable<MatchedOrder> {
     }
 
     @Override
-    public int compareTo(MatchedOrder that) {
+    public int compareTo(MatchOrder that) {
         return Float.compare(price, that.price);
     }
 }

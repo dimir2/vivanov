@@ -1,6 +1,7 @@
-package ru.job4j.pro.collections.generic.orderbook.tdd;
+package ru.job4j.pro.collections.orderbook.tdd;
 
 import org.junit.Test;
+import ru.job4j.pro.collections.orderbook.tdd.Order;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
