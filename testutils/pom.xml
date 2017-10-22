@@ -1,7 +1,14 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>chapter_005</artifactId>
+    <artifactId>testutils</artifactId>
     <version>2.0</version>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+    </dependencies>
     <packaging>jar</packaging>
 
     <parent>
@@ -9,14 +16,6 @@
         <artifactId>junior</artifactId>
         <version>2.0</version>
     </parent>
-
-    <dependencies>
-        <dependency>
-            <groupId>ru.job4j</groupId>
-            <artifactId>testutils</artifactId>
-            <version>2.0</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <resources>
