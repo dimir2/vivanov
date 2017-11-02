@@ -16,40 +16,52 @@ public class WordSpaceCount {
      *
      * @param args No args here.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         String alice = WordSpaceCount.class.getClassLoader().getResource("alice.txt").getPath();
         WordSpaceCount ws = new WordSpaceCount();
-        Runnable words = new Runnable() {
+        Thread words = new Thread(new Runnable() {
             @Override
             public void run() {
                 System.out.println("word count: " + ws.wordCount(alice));
             }
-        };
-        Runnable spaces = new Runnable() {
+        });
+        Thread spaces = new Thread(new Runnable() {
             @Override
             public void run() {
                 System.out.println("space count: " + ws.spaceCount(alice));
             }
-        };
-        new Thread(words).start();
-        new Thread(spaces).start();
+        });
+
+        System.out.println("Start programme");
+        words.start();
+        spaces.start();
+
+        Thread.sleep(1000);
+
+        words.interrupt();
+        spaces.interrupt();
+        System.out.println("Stop programme");
     }
 
     /**
      * Count words in a file given.
      *
-     * @param fname File name.
+     * @param filename File name.
      * @return Word count.
      */
-    public int wordCount(String fname) {
+    public int wordCount(String filename) {
         int counter = 0;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(fname));
+            BufferedReader br = new BufferedReader(new FileReader(filename));
             String line;
 
             while ((line = br.readLine()) != null) {
                 boolean insideWord = false;
                 for (char ch : line.toCharArray()) {
+                    if (Thread.interrupted()) {
+                        System.out.println("word count is interrupted.");
+                        return -1;
+                    }
                     if (Character.isLetter(ch)) {
                         if (!insideWord) {
                             counter++;
@@ -71,17 +83,21 @@ public class WordSpaceCount {
     /**
      * Count spaces in a file given.
      *
-     * @param fname File name.
+     * @param filename File name.
      * @return Space count.
      */
-    public int spaceCount(String fname) {
+    public int spaceCount(String filename) {
         int counter = 0;
         try {
-            BufferedReader br = new BufferedReader(new FileReader(fname));
+            BufferedReader br = new BufferedReader(new FileReader(filename));
             String line;
 
             while ((line = br.readLine()) != null) {
                 for (char ch : line.toCharArray()) {
+                    if (Thread.interrupted()) {
+                        System.out.println("space count is interrupted.");
+                        return -1;
+                    }
                     if (Character.isSpaceChar(ch)) {
                         counter++;
                     }
