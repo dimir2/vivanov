@@ -69,10 +69,10 @@
         </plugins>
     </build>
     <modules>
+        <module>common</module>
         <module>chapter_001</module>
         <module>chapter_002</module>
         <module>chapter_003</module>
-        <module>testutils</module>
         <module>chapter_005</module>
         <module>chapter_007</module>
     </modules>

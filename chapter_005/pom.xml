@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>ru.job4j</groupId>
-            <artifactId>testutils</artifactId>
+            <artifactId>common</artifactId>
             <version>2.0</version>
         </dependency>
     </dependencies>
