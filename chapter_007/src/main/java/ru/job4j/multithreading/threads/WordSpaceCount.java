@@ -32,14 +32,32 @@ public class WordSpaceCount {
             }
         });
 
+        Thread runner = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                words.start();
+                spaces.start();
+                try {
+                    words.join();
+                    spaces.join();
+                } catch (InterruptedException e) {
+                    if (words.isAlive()) {
+                        words.interrupt();
+                    }
+                    if (spaces.isAlive()) {
+                        spaces.interrupt();
+                    }
+                }
+            }
+        });
+
         System.out.println("Start programme");
-        words.start();
-        spaces.start();
 
-        Thread.sleep(1000);
+        runner.start();
 
-        words.interrupt();
-        spaces.interrupt();
+        runner.join(1000);
+        runner.interrupt();
+
         System.out.println("Stop programme");
     }
 
