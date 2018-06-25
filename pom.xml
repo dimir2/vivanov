@@ -75,10 +75,25 @@
     </build>
     <modules>
         <module>common</module>
-        <module>chapter_001</module>
-        <module>chapter_002</module>
-        <module>chapter_003</module>
-        <module>chapter_005</module>
-        <module>chapter_007</module>
+	<!--
+        <module>part1/ch1</module>
+        <module>part1/ch2</module>
+        <module>part1/ch3</module>
+	<module>part2/ch1</module>
+	-->
+        <module>part2/ch2</module>
     </modules>
+    <profiles>
+        <profile>
+            <id>all</id>
+                <modules>
+                    <module>common</module>
+                    <module>part1/ch1</module>
+                    <module>part1/ch2</module>
+                    <module>part1/ch3</module>
+                    <module>part2/ch1</module>
+                    <module>part2/ch2</module>
+                </modules>
+        </profile>
+    </profiles>
 </project>
