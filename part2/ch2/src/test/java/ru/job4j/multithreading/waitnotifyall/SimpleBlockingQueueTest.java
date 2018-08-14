@@ -28,10 +28,10 @@ public class SimpleBlockingQueueTest {
      * Simple test not working.
      */
     @Test
-    public void whenOfferValueThenCannotPollIt() {
+    public void whenOfferValueThenCannotPollIt() throws InterruptedException {
         SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(3);
 
-        new Thread(new Runnable() {
+        Thread first = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -41,9 +41,11 @@ public class SimpleBlockingQueueTest {
                 }
                 queue.poll();
             }
-        }
+        });
+        first.start();
 
-        ).start();
+        first.join();
+
         queue.offer(1);
         queue.offer(2);
         queue.offer(3);
