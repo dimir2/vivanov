@@ -10,7 +10,7 @@ public class SimpleBlockingQueueTest {
      * Simple test.
      */
     @Test
-    public void whenOfferValueThenCanPollIt() {
+    public void whenOfferValueThenCanPollIt() throws InterruptedException {
         SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(3);
 
         queue.offer(1);
@@ -36,10 +36,10 @@ public class SimpleBlockingQueueTest {
             public void run() {
                 try {
                     Thread.sleep(1000);
+                    queue.poll();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                queue.poll();
             }
         });
         first.start();

@@ -55,14 +55,10 @@ public class SimpleBlockingQueue<T> {
      * Poll available value from the queue
      * @return
      */
-    synchronized public T poll() {
+    synchronized public T poll() throws InterruptedException {
         T value = null;
         while (count == 0) {
-            try {
-                this.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            this.wait();
         }
         if (count > 0) {
             count--;
